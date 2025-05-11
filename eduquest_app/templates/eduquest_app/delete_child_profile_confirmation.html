@@ -1,0 +1,14 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+    <h2>Confirm Deletion</h2>
+    <p>Are you sure you want to delete the account for child <strong>{{ child.username }}</strong>? This action cannot be undone.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" style="background-color: red; color: white;">Yes, delete</button>
+        <a href="{% url 'manage-child-profile' child.id %}">
+            <button type="button">Cancel</button>
+        </a>
+    </form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+    <h2>Manage Profile</h2>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Role:</strong> {{ user.get_role_display }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Password:</strong> ******** </p>
+
+    <a href="{% url 'edit-parent-profile' %}">
+        <button type="button">Edit Profile</button>
+    </a>
+
+    <a href="{% url 'delete-parent-profile-confirmation' %}">
+        <button type="button" style="background-color: red; color: white;">Delete my account</button>
+    </a>
+
+    <a href="{% url 'profile' %}">
+        <button type="button">Back to Profile</button>
+    </a>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+    <h2>Manage Child Profile</h2>
+
+    <p><strong>Username:</strong> {{ child.username }}</p>
+    <p><stron>Role:</stron> {{ child.role }} </p>
+    <p><strong>Password:</strong> ********</p>
+    <a href="{% url 'edit-child-profile' child.id %}">
+        <button type="button">Edit profile</button>
+    </a>
+    <a href="{% url 'delete-child-profile-confirmation' child.id %}">
+        <button type="button" style="background-color: red; color: white;">Delete profile</button>
+    </a>
+
+    <h3>Preferences</h3>
+    {% if child.grade %}
+        <p><strong>Grade:</strong> {{ child.grade }}</p>
+    {% else %}
+        <p>Grade not set.</p>
+    {% endif %}
+
+    {% if preferences %}
+        <ul>
+            {% for preference in preferences %}
+                <li><strong>{{ preference.subject.name }}</strong> — Difficulty: {{ preference.get_difficulty_display }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No preferences set or all marked as "Not applicable".</p>
+    {% endif %}
+
+    <a href="{% url 'profile' %}">
+        <button type="button">Back to Profile</button>
+    </a>
+{% endblock %}

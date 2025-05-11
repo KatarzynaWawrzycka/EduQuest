@@ -71,7 +71,7 @@ class Preference(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     difficulty = models.IntegerField(choices=[(i, label) for i, label in enumerate(
-        ['Very easy', 'Quite easy', 'Normal', 'Quite hard', 'Very hard'], start=1)])
+        ['Not applicable', 'Very easy', 'Quite easy', 'Normal', 'Quite hard', 'Very hard'], start=1)])
 
     def __str__(self):
         return f"{self.user.username} - {self.subject.name} ({self.difficulty})"

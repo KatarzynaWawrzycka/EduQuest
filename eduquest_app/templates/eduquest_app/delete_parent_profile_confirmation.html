@@ -1,0 +1,17 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+    <h2>Confirm Deletion</h2>
+    <p>This will delete your account and all associated child accounts permanently.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="password">Enter your password to confirm:</label>
+        <input type="password" name="password" required>
+        <br><br>
+        <button type="submit" style="background-color: red; color: white;">Yes, delete my account</button>
+        <a href="{% url 'manage-parent-profile' %}">
+            <button type="button">Cancel</button>
+        </a>
+    </form>
+{% endblock %}

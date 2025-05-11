@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser, Subject
 
 DIFFICULTY_CHOICES = [
+    (0, 'Not applicable'),
     (1, 'Very easy'),
     (2, 'Quite easy'),
     (3, 'Normal'),
@@ -62,3 +63,77 @@ class PreferenceForm(forms.Form):
                 label=subject.name,
                 required=False,
             )
+
+class ParentProfileEditForm(forms.ModelForm):
+    password1 = forms.CharField(widget=forms.PasswordInput, label="New password", required=False)
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm new password", required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email']
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if password1 and not password2:
+            raise forms.ValidationError("Please confirm your new password.")
+
+        if password2 and not password1:
+            raise forms.ValidationError("Please enter your new password.")
+
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords do not match.")
+
+        if not password1 and not password2:
+            return None
+
+        return password2
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        password = self.cleaned_data.get('password1')
+
+        if password:
+            user.set_password(password)
+
+        if commit:
+            user.save()
+        return user
+
+class ChildProfileEditForm(forms.ModelForm):
+    password1 = forms.CharField(widget=forms.PasswordInput, label="New password", required=False)
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm new password", required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['username']
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if password1 and not password2:
+            raise forms.ValidationError("Please confirm your new password.")
+
+        if password2 and not password1:
+            raise forms.ValidationError("Please enter your new password.")
+
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords do not match.")
+
+        if not password1 and not password2:
+            return None
+
+        return password2
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        password = self.cleaned_data.get('password1')
+
+        if password:
+            user.set_password(password)
+
+        if commit:
+            user.save()
+        return user
