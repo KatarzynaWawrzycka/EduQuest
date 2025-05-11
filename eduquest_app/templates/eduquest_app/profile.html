@@ -1,0 +1,23 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+    <h2>User's profile</h2>
+    <p><strong>Username:</strong> {{ username }}</p>
+    <p><strong>Role:</strong> {{ role }}</p>
+
+    {% if role == 'Parent' %}
+    <a href="{% url 'add-child-user' %}">
+        <button type="button">Add child account</button>
+    </a>
+    <h3>Your children:</h3>
+    {% if children %}
+        <ul>
+            {% for child in children %}
+                <li>{{ child.username }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You don't have any children registered yet.</p>
+    {% endif %}
+{% endif %}
+{%endblock%}
