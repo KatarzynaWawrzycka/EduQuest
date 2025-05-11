@@ -4,11 +4,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView
 from django.contrib import messages
-from .forms import CustomUserCreationForm, ChildUserCreationForm
+from .forms import CustomUserCreationForm, ChildUserCreationForm, PreferenceForm
 from django.contrib.auth import views as auth_views
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 
-from .models import CustomUser
+from .models import CustomUser, Preference
+
 
 def index(request):
     """
@@ -67,8 +68,18 @@ class LoginView(auth_views.LoginView):
         if user.role == 'parent':
             return reverse('profile')
         elif user.role == 'child':
+            if not user.preference_filled:
+                return reverse('child-first-login')
             return reverse('tasks')
         return reverse('index')
+
+class ChildFirstLoginView(LoginRequiredMixin, TemplateView):
+    template_name = 'eduquest_app/child_first_login.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['message'] = 'Your preferences aren\'t set yet. Your parent must fill out a form first.'
+        return context
 
 class LogoutView(auth_views.LogoutView):
     """
@@ -76,6 +87,41 @@ class LogoutView(auth_views.LogoutView):
     Redirecting back to log in ----------------------------------------CHANGE TO INDEX ONCE DONE
     """
     next_page = "login"
+
+class SetPreferencesView(LoginRequiredMixin, TemplateView):
+    template_name = 'eduquest_app/set_preference.html'
+
+    def get(self, request, *args, **kwargs):
+        child_id = kwargs.get('child_id')
+        child = get_object_or_404(CustomUser, id=child_id, parent=request.user)
+        form = PreferenceForm()
+        return render(request, self.template_name, {'form': form, 'child': child})
+
+    def post(self, request, *args, **kwargs):
+        child_id = kwargs.get('child_id')
+        child = get_object_or_404(CustomUser, id=child_id, parent=request.user)
+        form = PreferenceForm(request.POST)
+
+        if form.is_valid():
+            child.grade = form.cleaned_data['grade']
+            child.preference_filled = True
+            child.save()
+
+            Preference.objects.filter(user=child).delete()
+
+            for field_name, value in form.cleaned_data.items():
+                if field_name.startswith('subject_') and value:
+                    subject_id = int(field_name.split('_')[1])
+                    Preference.objects.create(
+                        user=child,
+                        subject_id=subject_id,
+                        difficulty=value,
+                    )
+
+            messages.success(request, 'Your preferences were successfully updated!')
+            return redirect('profile')
+
+        return render(request, self.template_name, {'form': form, 'child': child})
 
 class ProfileView(LoginRequiredMixin, TemplateView):
     """
@@ -94,7 +140,20 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         # displaying children's accounts linked to the parent
         if user.role == 'parent':
             children = user.children.all() or []
-            context['children'] = children
+            children_data = []
+            has_children_without_preferences = False
+
+            for child in children:
+                has_preference = child.preference_filled
+                if not has_preference:
+                    has_children_without_preferences = True
+                children_data.append({
+                    'child': child,
+                    'has_preference': has_preference,
+                })
+
+            context['children_data'] = children_data
+            context['has_children_without_preferences'] = has_children_without_preferences
 
         return context
 

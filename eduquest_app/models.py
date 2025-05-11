@@ -7,9 +7,11 @@ class CustomUser(AbstractUser):
     """
     Custom User model
     Inherits from built-in AbstractUser
-    Modifications = email is optional - not required for child's account, user has a role (Parent/Child) - for different access
+    Modifications = optional email - not required for child's account, user role (Parent/Child) - for different access, grade for preferences form, check if preferences are set
     """
     email = models.EmailField(blank=True, null=True)
+    grade = models.PositiveIntegerField(blank=True, null=True)
+    preference_filled = models.BooleanField(default=False)
 
     class Role(models.TextChoices):
         CHILD = 'child', 'Child'
@@ -50,3 +52,26 @@ class CustomUser(AbstractUser):
     class Meta:
         verbose_name = "Użytkownik"
         verbose_name_plural = "Użytkownicy"
+
+class Subject(models.Model):
+    """
+    Subject model
+    Subjects list (id, name)
+    """
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Preference(models.Model):
+    """
+    Preference model
+    Links difficulty level to a subject to a user (child)
+    """
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    difficulty = models.IntegerField(choices=[(i, label) for i, label in enumerate(
+        ['Very easy', 'Quite easy', 'Normal', 'Quite hard', 'Very hard'], start=1)])
+
+    def __str__(self):
+        return f"{self.user.username} - {self.subject.name} ({self.difficulty})"

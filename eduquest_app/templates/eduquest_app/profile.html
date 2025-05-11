@@ -6,18 +6,36 @@
     <p><strong>Role:</strong> {{ role }}</p>
 
     {% if role == 'Parent' %}
-    <a href="{% url 'add-child-user' %}">
-        <button type="button">Add child account</button>
-    </a>
-    <h3>Your children:</h3>
-    {% if children %}
-        <ul>
-            {% for child in children %}
-                <li>{{ child.username }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>You don't have any children registered yet.</p>
+        <a href="{% url 'add-child-user' %}">
+            <button type="button">Add child account</button>
+        </a>
+
+        <h3>Your children:</h3>
+
+        {% if has_children_without_preferences %}
+            <div style="color: red; font-weight: bold; margin-bottom: 15px;">
+                One or more children don't have preferences set yet!
+            </div>
+        {% endif %}
+
+        {% if children_data %}
+            <ul>
+                {% for item in children_data %}
+                    <li>
+                        <strong>{{ item.child.username }}</strong>
+                        {% if item.has_preference %}
+                            — Preferences set
+                        {% else %}
+                            — <span style="color: red;">Preferences not set!</span>
+                            <a href="{% url 'set-preference' item.child.id %}">
+                                <button type="button">Set preferences</button>
+                            </a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You don't have any children registered yet.</p>
+        {% endif %}
     {% endif %}
-{% endif %}
-{%endblock%}
+{% endblock %}

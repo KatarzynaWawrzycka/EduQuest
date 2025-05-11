@@ -1,6 +1,14 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser
+from .models import CustomUser, Subject
+
+DIFFICULTY_CHOICES = [
+    (1, 'Very easy'),
+    (2, 'Quite easy'),
+    (3, 'Normal'),
+    (4, 'Quite hard'),
+    (5, 'Very hard'),
+]
 
 class CustomUserCreationForm(UserCreationForm):
     """
@@ -40,3 +48,17 @@ class CustomUserAuthenticationForm(AuthenticationForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'password')
+
+class PreferenceForm(forms.Form):
+    grade = forms.ChoiceField(choices=[(i, f"Grade {i}") for i in range (1, 5)], label="Select grade")
+
+    def __init__(self, *args, **kwargs):
+        subjects = Subject.objects.all()
+        super().__init__(*args, **kwargs)
+
+        for subject in subjects:
+            self.fields[f'subject_{subject.id}'] = forms.ChoiceField(
+                choices=DIFFICULTY_CHOICES,
+                label=subject.name,
+                required=False,
+            )
