@@ -1,0 +1,15 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+  <h2>Create New Task</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Create Task</button>
+    <a href="{% url 'tasks' %}">
+      <button type="button">Cancel</button>
+    </a>
+  </form>
+{% endblock %}

@@ -1,18 +1,18 @@
-from pipes import Template
+from datetime import timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, DetailView
 from django.contrib import messages
-from .forms import CustomUserCreationForm, ChildUserCreationForm, PreferenceForm, ParentProfileEditForm, \
-    ChildProfileEditForm
+from django.views.generic.edit import UpdateView, DeleteView, FormView
+from .forms import CustomUserCreationForm, ChildUserCreationForm, PreferencesForm, EmailUpdateForm, \
+    ConfirmPasswordForm, UsernameUpdateForm, PasswordUpdateForm, TaskCreateForm, RewardCreateForm
 from django.contrib.auth import views as auth_views, authenticate, logout
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import update_session_auth_hash
-
-from .models import CustomUser, Preference
-
+from .models import CustomUser, Preference, Task, Reward, Points
+from django.http import Http404
 
 def index(request):
     """
@@ -97,13 +97,13 @@ class SetPreferencesView(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         child_id = kwargs.get('child_id')
         child = get_object_or_404(CustomUser, id=child_id, parent=request.user)
-        form = PreferenceForm()
+        form = PreferencesForm()
         return render(request, self.template_name, {'form': form, 'child': child})
 
     def post(self, request, *args, **kwargs):
         child_id = kwargs.get('child_id')
         child = get_object_or_404(CustomUser, id=child_id, parent=request.user)
-        form = PreferenceForm(request.POST)
+        form = PreferencesForm(request.POST)
 
         if form.is_valid():
             child.grade = form.cleaned_data['grade']
@@ -167,31 +167,125 @@ def manage_parent_profile(request):
     return render(request, 'eduquest_app/manage_parent_profile.html', {'user': user})
 
 @login_required
-def edit_parent_profile(request):
-    user = request.user
+def manage_child_profile(request, child_id):
+    child = get_object_or_404(CustomUser, id=child_id, parent=request.user)
+    preference = Preference.objects.filter(user=child).exclude(difficulty=0).select_related('subject') #for subject list
+    tasks_raw = Task.objects.filter(user=child).order_by('due_date')
 
-    if request.method == 'POST':
-        form = ParentProfileEditForm(request.POST, instance=user)
-        if form.is_valid():
-            user = form.save()
-            password = form.cleaned_data.get('password1')
+    reward = Reward.objects.filter(user=child, is_active=True).first()
 
-            if password:
-                update_session_auth_hash(request, user)
+    tasks = []
+    for task in tasks_raw:
+        try:
+            task_preference = Preference.objects.get(user=child, subject=task.subject) #for task list
+            points = task_preference.difficulty * 10
+        except Preference.DoesNotExist:
+            points = 0
 
-            messages.success(request, 'Profile updated successfully!')
-            return redirect('profile')
-    else:
-        form = ParentProfileEditForm(instance=user)
+        tasks.append({
+            'title': task.title,
+            'subject': task.subject.name,
+            'description': task.description,
+            'due_date': task.due_date,
+            'status': task.get_status_display(),
+            'time': task.time,
+            'points': points,
+        })
 
-    return render(request, 'eduquest_app/edit_parent_profile.html', {'form': form})
+    context = {
+        'child': child,
+        'preferences': preference,
+        'reward': reward,
+        'tasks': tasks,
+    }
 
-@login_required
-def delete_parent_profile(request):
-    user = request.user
+    return render(request, 'eduquest_app/manage_child_profile.html', context)
 
-    if request.method == 'POST':
-        password = request.POST.get('password')
+class EmailUpdateView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    form_class = EmailUpdateForm
+    template_name = 'eduquest_app/email_update.html'
+    success_url = reverse_lazy('profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Email updated successfully!')
+        return super().form_valid(form)
+
+class ParentUsernameUpdateView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    form_class = UsernameUpdateForm
+    template_name = 'eduquest_app/username_update.html'
+    success_url = reverse_lazy('profile')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.role != CustomUser.Role.PARENT:
+            raise Http404("Only parents can access this page.")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Username updated successfully!')
+        return super().form_valid(form)
+
+class ChildUsernameUpdateView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    form_class = UsernameUpdateForm
+    template_name = 'eduquest_app/username_update.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(CustomUser, id=self.kwargs['child_id'], parent=self.request.user)
+
+    def get_success_url(self):
+        return reverse('manage-child-profile', kwargs={'child_id': self.object.id})
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Username updated successfully!')
+        return super().form_valid(form)
+
+class ParentPasswordUpdateView(LoginRequiredMixin, FormView):
+    model = CustomUser
+    form_class = PasswordUpdateForm
+    template_name = 'eduquest_app/password_update.html'
+    success_url = reverse_lazy('profile')
+
+    def form_valid(self, form):
+        new_password = form.cleaned_data['password1']
+        user = self.request.user
+        user.set_password(new_password)
+        user.save()
+        update_session_auth_hash(self.request, user)
+        messages.success(self.request, 'Password updated successfully!')
+        return redirect('profile')
+
+class ChildPasswordUpdateView(LoginRequiredMixin, FormView):
+    model = CustomUser
+    form_class = PasswordUpdateForm
+    template_name = 'eduquest_app/password_update.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.child = get_object_or_404(CustomUser, id=kwargs['child_id'], parent=request.user)
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        new_password = form.cleaned_data['password1']
+        self.child.set_password(new_password)
+        self.child.save()
+        messages.success(self.request, 'Password updated successfully!')
+        return redirect('manage-child-profile', child_id=self.child.id)
+
+class DeleteParentProfileView(LoginRequiredMixin, FormView):
+    template_name = 'eduquest_app/delete_parent_profile_confirmation.html'
+    form_class = ConfirmPasswordForm
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        user = self.request.user
+        password = form.cleaned_data['password']
 
         if authenticate(username=user.username, password=password):
             children = CustomUser.objects.filter(parent=user)
@@ -200,68 +294,196 @@ def delete_parent_profile(request):
                 child.delete()
 
             user.delete()
-
-            logout(request)
-            messages.success(request, 'Your accouny and all linked children\'s accounts were successfully deleted.')
-            return redirect('index')
+            logout(self.request)
+            messages.success(self.request, 'Your account and all linked children\'s accounts were successfully deleted.')
+            return redirect(self.get_success_url())
         else:
-            messages.error(request, 'Invalid password. Try again.')
+            messages.error(self.request, 'Password incorrect.Try again.')
+            return self.form_invalid(form)
 
-    return render(request, 'eduquest_app/delete_parent_profile_confirmation.html')
+class DeleteChildProfileView(LoginRequiredMixin, DeleteView):
+    model = CustomUser
+    template_name = 'eduquest_app/delete_child_profile_confirmation.html'
+    success_url = reverse_lazy('profile')
 
-@login_required
-def manage_child_profile(request, child_id):
-    child = get_object_or_404(CustomUser, id=child_id, parent=request.user)
-    preference = Preference.objects.filter(user=child).exclude(difficulty=0).select_related('subject')
+    def get_object(self, queryset=None):
+        return get_object_or_404(CustomUser, id=self.kwargs['child_id'], parent=self.request.user)
 
-    context = {
-        'child': child,
-        'preferences': preference,
-    }
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['child'] = self.get_object()
+        return context
 
-    return render(request, 'eduquest_app/manage_child_profile.html', context)
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
 
-@login_required
-def edit_child_profile(request, child_id):
-    child = get_object_or_404(CustomUser, id=child_id, parent=request.user)
+        Preference.objects.filter(user=self.object).delete()
+        response = super().delete(request, *args, **kwargs)
 
-    if request.method == 'POST':
-        form = ChildProfileEditForm(request.POST, instance=child)
+        messages.success(self.request, 'Child profile deleted successfully!')
+        return response
+
+class PreferencesUpdateView(LoginRequiredMixin, FormView):
+    template_name = 'eduquest_app/preferences_update.html'
+    form_class = PreferencesForm
+    success_url = reverse_lazy('manage-child-profile')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.child = get_object_or_404(CustomUser, id=kwargs['child_id'], parent=request.user)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        initial = {'grade': self.child.grade}
+        preferences = Preference.objects.filter(user=self.child)
+
+        for p in preferences:
+            initial[f'subject_{p.subject_id}'] = p.difficulty
+
+        form = self.form_class(initial=initial)
+        return render(request, self.template_name, {'form': form, 'child': self.child})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Child profile updated successfully!')
-            return redirect('manage-child-profile', child_id=child.id)
-    else:
-        form = ChildProfileEditForm(instance=child)
+            self.child.grade = form.cleaned_data['grade']
+            self.child.preference_filled = True
+            self.child.save()
 
-    return render(request, 'eduquest_app/edit_child_profile.html', {
-        'form': form,
-        'child': child,
-    })
+            Preference.objects.filter(user=self.child).delete()
 
-@login_required
-def delete_child_profile(request, child_id):
-    child = get_object_or_404(CustomUser, id=child_id, parent=request.user)
+            for field_name, value in form.cleaned_data.items():
+                if field_name.startswith('subject_') and value != 0:
+                    subject_id = int(field_name.split('_')[1])
+                    Preference.objects.create(
+                        user=self.child,
+                        subject_id=subject_id,
+                        difficulty=value,
+                    )
 
-    if request.method == 'POST':
-        Preference.objects.filter(user=child).delete()
-        child.delete()
-        messages.success(request, 'Child profile deleted successfully!')
-        return redirect('profile')
+            messages.success(request, 'Preferences updated successfully!')
+            return redirect('manage-child-profile', child_id=self.child.id)
 
-    return render(request, 'eduquest_app/delete_child_profile_confirmation.html', {'child': child})
+        return render(request, self.template_name, {'form': form, 'child': self.child})
 
-class TasksView(LoginRequiredMixin, TemplateView):
+class RewardCreateView(LoginRequiredMixin, CreateView):
+    model = Reward
+    form_class = RewardCreateForm
+    template_name = 'eduquest_app/reward_create.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.child = get_object_or_404(CustomUser, id=kwargs['child_id'], parent=request.user)
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        Reward.objects.filter(user=self.child, is_active=True).update(is_active=False)
+        form.instance.user = self.child
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('manage-child-profile', kwargs={'child_id': self.kwargs['child_id']})
+
+class RewardEditView(LoginRequiredMixin, UpdateView):
+    model = Reward
+    fields = ['name', 'points_required']
+    template_name = 'eduquest_app/reward_edit.html'
+
+    def get_queryset(self):
+        child_id = self.kwargs.get('child_id')
+        return Reward.objects.filter(
+            user_id=child_id,
+            user__parent=self.request.user
+        )
+
+    def get_success_url(self):
+        return reverse('manage-child-profile', kwargs={'child_id': self.kwargs['child_id']})
+
+
+class RewardDeleteView(LoginRequiredMixin, DeleteView):
+    model = Reward
+    template_name = 'eduquest_app/reward_delete.html'
+
+    def get_queryset(self):
+        child_id = self.kwargs.get('child_id')
+
+        return Reward.objects.filter(
+            user_id=child_id,
+            user__parent=self.request.user
+        )
+
+    def get_success_url(self):
+        child_id = self.kwargs.get('child_id')
+        return reverse('manage-child-profile', kwargs={'child_id': child_id})
+
+class TasksListView(LoginRequiredMixin, TemplateView):
     """
-    Tasks view
-
+    Tasks List
+    for currently logged-in user
     """
-    template_name = 'eduquest_app/tasks.html'
+    template_name = 'eduquest_app/task_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tasks'] = (Task.objects
+                            .filter(user=self.request.user)
+                            .order_by('due_date'))
+        return context
+
+class TaskDetailView(LoginRequiredMixin, DetailView):
+    model = Task
+    template_name = 'eduquest_app/task_detail.html'
+    context_object_name = 'task'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context['username'] = user.username
-        context['role'] = user.get_role_display()
+        task = self.object
+
+        try:
+            preference = Preference.objects.get(user=user, subject=task.subject)
+            points = preference.difficulty * 10
+        except Preference.DoesNotExist:
+            points = 0
+
+        context['points'] = points
         return context
 
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    model = Task
+    form_class = TaskCreateForm
+    template_name = 'eduquest_app/task_create.html'
+    success_url = reverse_lazy('tasks')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        task = form.save(commit=False)
+        task.user = self.request.user
+        task.status = Task.Status.TO_DO.value
+        task.save()
+        return super().form_valid(form)
+
+class TaskEditView(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = TaskCreateForm
+    template_name = 'eduquest_app/task_edit.html'
+    success_url = reverse_lazy('tasks')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
+
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    model = Task
+    template_name = 'eduquest_app/task_delete.html'
+    success_url = reverse_lazy('tasks')
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)

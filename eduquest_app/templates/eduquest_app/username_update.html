@@ -1,0 +1,22 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+  <h2>Update Username{% if child_id %} (Child #{{ child_id }}){% endif %}</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Update Username</button>
+  </form>
+
+  {% if child_id %}
+    <a href="{% url 'manage-child-profile' %}">
+      <button type="button">Back</button>
+    </a>
+  {% else %}
+    <a href="{% url 'profile' %}">
+      <button type="button">Cancel</button>
+    </a>
+  {% endif %}
+{% endblock %}

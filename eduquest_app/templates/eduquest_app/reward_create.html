@@ -1,0 +1,15 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+<h2>Create Reward for {{ view.child.username }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Reward</button>
+</form>
+
+<a href="{% url 'manage-child-profile' child_id=view.child.id %}">
+    <button type="button">Cancel</button>
+</a>
+{% endblock %}

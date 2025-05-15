@@ -1,0 +1,16 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+  <h2>Update Email</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Update Email</button>
+  </form>
+
+  <a href="{% url 'manage-parent-profile' %}">
+    <button type="button">Cancel</button>
+  </a>
+{% endblock %}

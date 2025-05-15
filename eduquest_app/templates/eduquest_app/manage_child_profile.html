@@ -1,14 +1,24 @@
 {% extends "eduquest_app/base.html" %}
 
 {% block content %}
-    <h2>Manage Child Profile</h2>
+    <h2>Manage Child's Profile</h2>
 
-    <p><strong>Username:</strong> {{ child.username }}</p>
-    <p><stron>Role:</stron> {{ child.role }} </p>
-    <p><strong>Password:</strong> ********</p>
-    <a href="{% url 'edit-child-profile' child.id %}">
-        <button type="button">Edit profile</button>
-    </a>
+    <p>
+        <strong>Username:</strong> {{ child.username }}
+        <a href="{% url 'child-username-update' child_id=child.id %}">
+            <button type="button" style="margin-left: 10px;">Update</button>
+        </a>
+    </p>
+
+    <p><strong>Role:</strong> {{ child.role }} </p>
+
+    <p>
+        <strong>Password:</strong> ********
+        <a href="{% url 'child-password-update' child_id=child.id %}">
+            <button type="button" style="margin-left: 10px;">Update</button>
+        </a>
+    </p>
+
     <a href="{% url 'delete-child-profile-confirmation' child.id %}">
         <button type="button" style="background-color: red; color: white;">Delete profile</button>
     </a>
@@ -26,11 +36,63 @@
                 <li><strong>{{ preference.subject.name }}</strong> — Difficulty: {{ preference.get_difficulty_display }}</li>
             {% endfor %}
         </ul>
+        <a href="{% url 'preferences-update' child.id %}">
+            <button type="button">Change preferences</button>
+        </a>
     {% else %}
         <p>No preferences set or all marked as "Not applicable".</p>
     {% endif %}
 
+    <h3>Reward</h3>
+    {% if reward %}
+        <p><strong>{{ reward.name }}</strong></p>
+        <p>Points required: {{ reward.points_required }}</p>
+        <a href="{% url 'reward-edit' child_id=child.id pk=reward.id %}">
+            <button type="button">Edit</button>
+        </a>
+        <a href="{% url 'reward-delete' child_id=child.id pk=reward.id %}">
+            <button type="button">Delete</button>
+        </a>
+    {% else %}
+        <p>No active reward set.</p>
+        <a href="{% url 'reward-create' child.id %}">
+            <button type="button">Create Reward</button>
+        </a>
+    {% endif %}
+
+    <h3>Tasks</h3>
+        {% if tasks %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Subject</th>
+                        <th>Description</th>
+                        <th>Due Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.title }}</td>
+                            <td>{{ task.subject }}</td>
+                            <td>{{ task.description|default_if_none:"No description"|truncatechars:5 }}</td>
+                            <td>{{ task.due_date }}</td>
+                            <td>{{ task.time }} min</td>
+                            <td>{{ task.status }}</td>
+                            <td>{{ task.points }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>This child has no tasks.</p>
+        {% endif %}
+
     <a href="{% url 'profile' %}">
-        <button type="button">Back to Profile</button>
+        <button type="button">Back</button>
     </a>
 {% endblock %}

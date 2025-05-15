@@ -1,0 +1,12 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+  <h2>Delete Reward</h2>
+  <p>Are you sure you want to delete the reward <strong>{{ object.name }}</strong> for {{ object.user.username }}?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" style="color: white; background-color: red;">Yes, delete</button>
+    <a href="{% url 'manage-child-profile' child_id=object.user.id %}"><button type="button">Cancel</button></a>
+  </form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+    <h2>Your tasks</h2>
+
+     <a href="{% url 'task-create' %}" class="btn btn-primary">Add New Task</a>
+
+    {% if tasks %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Subject</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Points</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.title }}</td>
+                        <td>{{ task.subject }}</td>
+                        <td>{{ task.description|default_if_none:"No description"|truncatechars:5 }}</td>
+                        <td>{{ task.due_date }}</td>
+                        <td>{{ task.time }} min</td>
+                        <td>{{ task.get_status_display }}</td>
+                        <td>{{ task.points }}</td>
+                        <td>
+                            <a href="{% url 'task-detail' task.id %}">Details</a>
+                            <a href="{% url 'task-edit' task.id %}">Edit</a>
+                            <a href="{% url 'task-delete' task.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Your task list is empty.</p>
+    {% endif %}
+{% endblock %}

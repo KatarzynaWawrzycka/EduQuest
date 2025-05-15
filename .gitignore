@@ -12,7 +12,7 @@ media/
 staticfiles/
 
 # Virtual environment
-venv/
+./venv/
 
 # IDEs
 .idea/

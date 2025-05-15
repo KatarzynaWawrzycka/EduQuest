@@ -2,14 +2,31 @@
 
 {% block content %}
     <h2>Manage Profile</h2>
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Role:</strong> {{ user.get_role_display }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Password:</strong> ******** </p>
 
-    <a href="{% url 'edit-parent-profile' %}">
-        <button type="button">Edit Profile</button>
-    </a>
+    <p>
+        <strong>Username:</strong> {{ user.username }}
+        <a href="{% url 'parent-username-update' %}">
+            <button type="button" style="margin-left: 10px;">Update</button>
+        </a>
+    </p>
+
+    <p>
+        <strong>Role:</strong> {{ user.get_role_display }}
+    </p>
+
+    <p>
+        <strong>Email:</strong> {{ user.email }}
+        <a href="{% url 'email-update' %}">
+            <button type="button" style="margin-left: 10px;">Update</button>
+        </a>
+    </p>
+
+    <p>
+        <strong>Password:</strong> ********
+        <a href="{% url 'parent-password-update' %}">
+            <button type="button" style="margin-left: 10px;">Update</button>
+        </a>
+    </p>
 
     <a href="{% url 'delete-parent-profile-confirmation' %}">
         <button type="button" style="background-color: red; color: white;">Delete my account</button>

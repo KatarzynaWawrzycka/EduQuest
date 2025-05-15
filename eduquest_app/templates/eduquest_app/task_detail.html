@@ -1,0 +1,15 @@
+{% extends "eduquest_app/base.html" %}
+
+{% block content %}
+    <h2>Task Details</h2>
+
+    <p><strong>Title:</strong> {{ task.title }}</p>
+    <p><strong>Subject:</strong> {{ task.subject.name }}</p>
+    <p><strong>Description:</strong><br> {{ task.description|linebreaks }}</p>
+    <p><strong>Due Date:</strong> {{ task.due_date }}</p>
+    <p><strong>Time:</strong> {{ task.time }} minutes</p>
+    <p><strong>Status:</strong> {{ task.get_status_display }}</p>
+    <p><strong>Points:</strong> {{ points }}</p>
+
+    <a href="{% url 'tasks' %}">Back to Task List</a>
+{% endblock %}

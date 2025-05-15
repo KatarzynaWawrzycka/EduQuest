@@ -1,12 +1,13 @@
 {% extends "eduquest_app/base.html" %}
 
 {% block content %}
-    <h2>Edit Child Profile</h2>
+    <h2>Edit Preferences for {{ child.username }}</h2>
+
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
 
-        <button type="submit">Save changes</button>
+        <button type="submit">Save preferences</button>
         <a href="{% url 'manage-child-profile' child.id %}">
             <button type="button">Cancel</button>
         </a>

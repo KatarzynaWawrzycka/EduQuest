@@ -1,7 +1,10 @@
 from django.urls import path
-from .views import index, LoginView, LogoutView, SignUpView, ProfileView, ChildUserCreationView, TasksView, \
-    ChildFirstLoginView, SetPreferencesView, manage_parent_profile, edit_parent_profile, manage_child_profile, \
-    edit_child_profile, delete_child_profile, delete_parent_profile
+from .views import index, LoginView, LogoutView, SignUpView, ProfileView, ChildUserCreationView, \
+    ChildFirstLoginView, SetPreferencesView, manage_parent_profile, manage_child_profile, \
+    EmailUpdateView, DeleteChildProfileView, DeleteParentProfileView, \
+    ParentUsernameUpdateView, ChildUsernameUpdateView, ParentPasswordUpdateView, \
+    ChildPasswordUpdateView, PreferencesUpdateView, TasksListView, TaskCreateView, TaskEditView, TaskDeleteView, \
+    TaskDetailView, RewardCreateView, RewardDeleteView, RewardEditView
 
 urlpatterns = [
     path('', index, name='index'),
@@ -13,10 +16,21 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('manage-parent-profile/', manage_parent_profile, name='manage-parent-profile'),
-    path('edit-parent-profile/', edit_parent_profile, name='edit-parent-profile'),
-    path('parent/delete/', delete_parent_profile, name='delete-parent-profile-confirmation'),
     path('manage-child-profile/<int:child_id>/', manage_child_profile, name='manage-child-profile'),
-    path('child/<int:child_id>/edit/', edit_child_profile, name='edit-child-profile'),
-    path('child/<int:child_id>/delete/', delete_child_profile, name='delete-child-profile-confirmation'),
-    path('tasks/', TasksView.as_view(), name='tasks'),
+    path('email-update/', EmailUpdateView.as_view(), name='email-update'),
+    path('username-update/', ParentUsernameUpdateView.as_view(), name='parent-username-update'),
+    path('child/<int:child_id>/username-update/', ChildUsernameUpdateView.as_view(), name='child-username-update'),
+    path('password-update/', ParentPasswordUpdateView.as_view(), name='parent-password-update'),
+    path('child/<int:child_id>/password-update/', ChildPasswordUpdateView.as_view(), name='child-password-update'),
+    path('delete-parent-profile-confirmation', DeleteParentProfileView.as_view(), name='delete-parent-profile-confirmation'),
+    path('delete-child-profile-confirmation/<int:child_id>/', DeleteChildProfileView.as_view(), name='delete-child-profile-confirmation'),
+    path('child/<int:child_id>/preferences-update/', PreferencesUpdateView.as_view(), name='preferences-update'),
+    path('reward-create/<int:child_id>/', RewardCreateView.as_view(), name='reward-create'),
+    path('child/<int:child_id>/reward-edit/<int:pk>/', RewardEditView.as_view(), name='reward-edit'),
+    path('reward-delete/<int:child_id>/<int:pk>/', RewardDeleteView.as_view(), name='reward-delete'),
+    path('tasks/', TasksListView.as_view(), name='tasks'),
+    path('tasks/<int:pk>/',TaskDetailView.as_view(), name='task-detail'),
+    path('tasks/create/', TaskCreateView.as_view(), name='task-create'),
+    path('tasks/<int:pk>/edit/', TaskEditView.as_view(), name='task-edit'),
+    path('tasks/<int:pk>/delete/', TaskDeleteView.as_view(), name='task-delete'),
 ]
