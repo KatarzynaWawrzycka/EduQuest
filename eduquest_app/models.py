@@ -47,6 +47,18 @@ class CustomUser(AbstractUser):
             self.parent = None
         super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        if self.role == CustomUser.Role.CHILD:
+            Preference.objects.filter(user=self).delete()
+            Task.objects.filter(user=self).delete()
+            Reward.objects.filter(user=self).delete()
+            Points.objects.filter(user=self).delete()
+        elif self.role == CustomUser.Role.PARENT:
+            for child in self.children.all():
+                child.delete()
+
+        super().delete(*args, **kwargs)
+
     def __str__(self):
         return f"{self.username} ({self.get_role_display()})"
 

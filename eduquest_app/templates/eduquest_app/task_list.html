@@ -1,44 +1,423 @@
 {% extends "eduquest_app/base.html" %}
+{% load static %}
 
 {% block content %}
-    <h2>Your tasks</h2>
+  <h2>Your Tasks</h2>
 
-     <a href="{% url 'task-create' %}" class="btn btn-primary">Add New Task</a>
+  <a href="{% url 'task-create' %}" class="btn btn-primary mb-3">Add New Task</a>
 
-    {% if tasks %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Subject</th>
-                    <th>Description</th>
-                    <th>Due Date</th>
-                    <th>Time</th>
-                    <th>Status</th>
-                    <th>Points</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
-                    <tr>
-                        <td>{{ task.title }}</td>
-                        <td>{{ task.subject }}</td>
-                        <td>{{ task.description|default_if_none:"No description"|truncatechars:5 }}</td>
-                        <td>{{ task.due_date }}</td>
-                        <td>{{ task.time }} min</td>
-                        <td>{{ task.get_status_display }}</td>
-                        <td>{{ task.points }}</td>
-                        <td>
-                            <a href="{% url 'task-detail' task.id %}">Details</a>
-                            <a href="{% url 'task-edit' task.id %}">Edit</a>
-                            <a href="{% url 'task-delete' task.id %}" class="btn btn-sm btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+  {# === STARTED TASKS === #}
+  {% if started_tasks %}
+    <h4>In Progress</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th><th>Subject</th><th>Description</th>
+          <th>Due</th><th>Time</th><th>Points</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for task in started_tasks %}
+        <tr>
+          <td>{{ task.title }}</td>
+          <td>{{ task.subject }}</td>
+          <td>{{ task.description|truncatechars:5 }}</td>
+          <td>{{ task.due_date }}</td>
+          <td>{{ task.time }} min</td>
+          <td>{{ task.points }}</td>
+          <td>
+            <button
+              class="start-btn btn btn-sm btn-success"
+              data-task-id="{{ task.id }}"
+              data-title="{{ task.title }}"
+              data-subject="{{ task.subject }}">
+              Continue
+            </button>
+            <a href="{% url 'task-detail' task.id %}" class="btn btn-sm btn-info">Details</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  {# === TO DO TASKS === #}
+  {% if todo_tasks %}
+    <h4>To Do</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th><th>Subject</th><th>Description</th>
+          <th>Due</th><th>Time</th><th>Points</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for task in todo_tasks %}
+        <tr>
+          <td>{{ task.title }}</td>
+          <td>{{ task.subject }}</td>
+          <td>{{ task.description|truncatechars:5 }}</td>
+          <td>{{ task.due_date }}</td>
+          <td>{{ task.time }} min</td>
+          <td>{{ task.points }}</td>
+          <td>
+              <a href="{% url 'task-detail' task.id %}" class="btn btn-sm btn-info">Details</a>
+            <a href="{% url 'task-edit' task.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+            <a href="{% url 'task-delete' task.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+            <button
+              class="start-btn btn btn-sm btn-success"
+              data-task-id="{{ task.id }}"
+              data-title="{{ task.title }}"
+              data-subject="{{ task.subject }}">
+              Start
+            </button>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  {# Toggle button teraz tylko w JS doda param #}
+<div class="mb-4 mt-4">
+  <button id="toggle-done" class="btn btn-outline-success me-2">
+    Finished Tasks
+  </button>
+  <button id="toggle-overdue" class="btn btn-outline-warning">
+    Overdue Tasks
+  </button>
+</div>
+
+  {# FINISHED #}
+<div id="done-section" {% if show_done %}style="display:block;"{% else %}style="display:none;"{% endif %}>
+  <h4>Finished</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th><th>Subject</th><th>Description</th>
+        <th>Due</th><th>Time</th><th>Points</th><th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for task in done_tasks %}
+      <tr>
+        <td>{{ task.title }}</td>
+        <td>{{ task.subject }}</td>
+        <td>{{ task.description|truncatechars:5 }}</td>
+        <td>{{ task.due_date }}</td>
+        <td>{{ task.time }} min</td>
+       <td>
+        {% if task.points == 0 %}
+          -
+        {% else %}
+          {{ task.points }}
+        {% endif %}
+      </td>
+        <td>
+          <a href="{% url 'task-detail' task.id %}" class="btn btn-sm btn-info">Details</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {# Paginacja #}
+  {% if done_paginator.num_pages > 1 %}
+    <nav>
+      <ul class="pagination">
+        {% if done_page.has_previous %}
+          <li class="page-item">
+            <a class="page-link"
+               href="?done_page={{ done_page.previous_page_number }}&show=done">
+              Previous
+            </a>
+          </li>
+        {% endif %}
+        <li class="page-item disabled">
+          <span class="page-link">
+            Page {{ done_page.number }} of {{ done_paginator.num_pages }}
+          </span>
+        </li>
+        {% if done_page.has_next %}
+          <li class="page-item">
+            <a class="page-link"
+               href="?done_page={{ done_page.next_page_number }}&show=done">
+              Next
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+</div>
+
+  {# === OVERDUE TASKS (hidden by default) === #}
+  <div id="overdue-section" {% if show == 'overdue' %}style="display:block;"{% else %}style="display:none;"{% endif %}>
+  <h4>Overdue</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th><th>Subject</th><th>Description</th>
+        <th>Due</th><th>Time</th><th>Points</th><th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if overdue_tasks %}
+      {% for task in overdue_tasks %}
+        <tr>
+          <td>{{ task.title }}</td>
+          <td>{{ task.subject }}</td>
+          <td>{{ task.description|truncatechars:5 }}</td>
+          <td>{{ task.due_date }}</td>
+          <td>{{ task.time }} min</td>
+          <td> - </td>
+          <td>
+            <a href="{% url 'task-detail' task.id %}" class="btn btn-sm btn-info">Details</a>
+          </td>
+        </tr>
+      {% endfor %}
     {% else %}
-        <p>Your task list is empty.</p>
+      <tr>
+        <td colspan="7" class="text-center text-muted">No overdue tasks.</td>
+      </tr>
     {% endif %}
+    </tbody>
+  </table>
+</div>
+
+  {# CSRF token (needed by JS fetch) #}
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+  <!-- Modal: odliczanie czasu z GIF i controlkami Stop / Continue+Exit -->
+  <div id="timer-modal" class="modal" style="display:none;">
+    <div class="modal-content" style="text-align:center; position:relative;">
+        <h3 id="modal-task-title" style="margin-bottom: 0;"></h3>
+        <p id="modal-task-subject" style="margin-top: 0; color: #666;"></p>
+          <h4>Time left: <span id="modal-time-left">00:00</span></h4>
+          <img id="task-gif" src="{% static 'animations/tst.gif' %}" alt="Loading..." style="width:150px; margin:1em 0;"/>
+      <div id="run-controls">
+        <button id="stop-btn" class="btn btn-warning">Stop</button>
+      </div>
+      <div id="pause-controls" style="display:none;">
+            <button id="continue-btn" class="btn btn-success">Continue</button>
+            <button id="exit-btn" class="btn btn-danger">Exit</button>
+            <button id="finish-btn" class="btn btn-info">Finish Early</button>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal: potwierdzenie hasłem rodzica -->
+<div id="parent-password-modal" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width: 400px; margin: auto; padding: 20px; border-radius: 8px;">
+    <h5>Enter parent's password</h5>
+    <input type="password" id="parent-password-input" class="form-control" placeholder="Parent password" />
+    <div style="margin-top: 1em; text-align: right;">
+      <button id="parent-password-cancel" class="btn btn-secondary btn-sm">Cancel</button>
+      <button id="parent-password-submit" class="btn btn-primary btn-sm">Submit</button>
+    </div>
+    <p id="parent-password-error" style="color: red; display: none; margin-top: 0.5em;">Incorrect password</p>
+  </div>
+</div>
+
+  <!-- Modal time-up -->
+  <div id="timeup-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <p>Time is up!</p>
+      <button id="timeup-ok" class="btn btn-primary">OK</button>
+    </div>
+  </div>
+
+  <!-- Modal z info o punktach -->
+  <div id="points-earned-modal" class="modal" style="display:none;">
+    <div class="modal-content" style="background: white; padding: 20px; border-radius: 10px; text-align: center;">
+      <p id="earned-message" style="font-size: 1.2em; font-weight: bold;"></p>
+      <button id="earned-ok" class="btn btn-success">OK</button>
+    </div>
+  </div>
+
+  <!-- CSRF token -->
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+{% endblock %}
+
+{% block extra_js %}
+<script>
+ // proste przełączanie Finished / Overdue trzymające URL
+document.getElementById('toggle-done').addEventListener('click', () => {
+  const params = new URLSearchParams(window.location.search);
+  // jeśli już pokazane – usuwamy, inaczej dodajemy
+  if (params.get('show') === 'done') {
+    params.delete('show');
+    params.delete('done_page');  // możesz też zresetować paginację
+  } else {
+    params.set('show', 'done');
+  }
+  window.location.search = params.toString();
+});
+
+document.getElementById('toggle-overdue').addEventListener('click', () => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('show') === 'overdue') {
+    params.delete('show');
+  } else {
+    params.set('show', 'overdue');
+  }
+  window.location.search = params.toString();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  let currentTaskId, countdownInterval, secondsLeft;
+
+  function formatTime(sec) {
+    const m = String(Math.floor(sec/60)).padStart(2,'0');
+    const s = String(sec%60).padStart(2,'0');
+    return `${m}:${s}`;
+  }
+  function show(id){ document.getElementById(id).style.display = 'flex'; }
+  function hide(id){ document.getElementById(id).style.display = 'none'; }
+
+  // ★ START / CONTINUE ★
+  document.querySelectorAll('.start-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      currentTaskId = btn.dataset.taskId;
+      document.getElementById('modal-task-title').textContent = btn.dataset.title;
+      document.getElementById('modal-task-subject').textContent = btn.dataset.subject;
+
+      const resp = await fetch(`/tasks/${currentTaskId}/start/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrfToken, 'Accept': 'application/json' }
+      });
+      const { minutes } = await resp.json();
+      secondsLeft = minutes * 60;
+
+      document.getElementById('task-gif').src = "{% static 'animations/tst.gif' %}";
+      hide('pause-controls');
+      show('run-controls');
+      document.getElementById('modal-time-left').textContent = formatTime(secondsLeft);
+
+      show('timer-modal');
+      countdownInterval = setInterval(() => {
+        secondsLeft--;
+        document.getElementById('modal-time-left').textContent = formatTime(secondsLeft);
+        if (secondsLeft <= 0) {
+          clearInterval(countdownInterval);
+          hide('timer-modal');
+          show('timeup-modal');
+        }
+      }, 1000);
+    });
+  });
+
+  // ★ STOP ★
+  document.getElementById('stop-btn').addEventListener('click', () => {
+    clearInterval(countdownInterval);
+    hide('run-controls');
+    show('pause-controls');
+    document.getElementById('task-gif').src = "{% static 'animations/tst_still.png' %}";
+  });
+
+  // ★ CONTINUE ★
+  document.getElementById('continue-btn').addEventListener('click', () => {
+    hide('pause-controls');
+    show('run-controls');
+    document.getElementById('task-gif').src = "{% static 'animations/tst.gif' %}";
+    countdownInterval = setInterval(() => {
+      secondsLeft--;
+      document.getElementById('modal-time-left').textContent = formatTime(secondsLeft);
+      if (secondsLeft <= 0) {
+        clearInterval(countdownInterval);
+        hide('timer-modal');
+        show('timeup-modal');
+      }
+    }, 1000);
+  });
+
+  // ★ EXIT (PAUSE) ★
+  document.getElementById('exit-btn').addEventListener('click', async () => {
+    clearInterval(countdownInterval);
+    hide('timer-modal');
+    const remaining_minutes = Math.ceil(secondsLeft / 60);
+    await fetch(`/tasks/${currentTaskId}/pause/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ remaining_minutes })
+    });
+    window.location.reload();
+  });
+
+  // ★ FINISH EARLY: show password modal ★
+  document.getElementById('finish-btn').addEventListener('click', () => {
+    document.getElementById('parent-password-error').style.display = 'none';
+    document.getElementById('parent-password-input').value = '';
+    show('parent-password-modal');
+  });
+
+  // ★ PASSWORD MODAL: cancel ★
+  document.getElementById('parent-password-cancel').addEventListener('click', () => {
+    hide('parent-password-modal');
+  });
+
+  // ★ PASSWORD MODAL: submit ★
+  document.getElementById('parent-password-submit').addEventListener('click', async () => {
+    const pwdInput = document.getElementById('parent-password-input');
+    const errorEl = document.getElementById('parent-password-error');
+    const pwd = pwdInput.value.trim();
+    if (!pwd) {
+      errorEl.textContent = 'Please enter a password';
+      errorEl.style.display = 'block';
+      return;
+    }
+    try {
+      const resp = await fetch(`/tasks/${currentTaskId}/finish-early/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrfToken,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ password: pwd })
+      });
+      const data = await resp.json();
+      if (!resp.ok) {
+        errorEl.textContent = data.error || 'Incorrect password';
+        errorEl.style.display = 'block';
+        return;
+      }
+      // success
+      hide('parent-password-modal');
+      clearInterval(countdownInterval);
+      hide('timer-modal');
+      document.getElementById('earned-message').textContent =
+        `Good job! You earned ${data.awarded} point${data.awarded === 1 ? '' : 's'}!`;
+      show('points-earned-modal');
+    } catch (err) {
+      errorEl.textContent = 'Network error';
+      errorEl.style.display = 'block';
+    }
+  });
+
+  // ★ TIME-UP ★
+  document.getElementById('timeup-ok').addEventListener('click', async () => {
+    hide('timeup-modal');
+    const resp = await fetch(`/tasks/${currentTaskId}/finish/`, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': csrfToken, 'Accept': 'application/json' }
+    });
+    const { awarded } = await resp.json();
+    document.getElementById('earned-message').textContent =
+      `Good job! You earned ${awarded} point${awarded === 1 ? '' : 's'}!`;
+    show('points-earned-modal');
+  });
+
+  // ★ POINTS-EARNED OK ★
+  document.getElementById('earned-ok').addEventListener('click', () => {
+    hide('points-earned-modal');
+    window.location.reload();
+  });
+
+});
+</script>
 {% endblock %}

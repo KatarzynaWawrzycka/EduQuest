@@ -45,19 +45,31 @@
 
     <h3>Reward</h3>
     {% if reward %}
-        <p><strong>{{ reward.name }}</strong></p>
-        <p>Points required: {{ reward.points_required }}</p>
-        <a href="{% url 'reward-edit' child_id=child.id pk=reward.id %}">
-            <button type="button">Edit</button>
-        </a>
-        <a href="{% url 'reward-delete' child_id=child.id pk=reward.id %}">
-            <button type="button">Delete</button>
-        </a>
+        {% widthratio earned_points reward.points_required 100 as percent %}
+        <div class="mb-4 max-w-md">
+            <p><strong>Reward:</strong> {{ reward.name }}</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar"
+                    style="width: {{ percent }}%; min-width: 50px;"
+                    aria-valuenow="{{ earned_points }}"
+                    aria-valuemin="0"
+                    aria-valuemax="{{ reward.points_required }}">
+                    {{ earned_points }} / {{ reward.points_required }} pkt
+                </div>
+            </div>
+
+            {% if reward_achieved %}
+                <div class="alert alert-info mt-2">
+                    🎉 Reward achieved! Click below to mark it as claimed.
+                </div>
+                <a href="{% url 'reward-claim' child.id reward.id %}" class="btn btn-primary mt-2">
+                    Claim & Deactivate
+                </a>
+            {% endif %}
+        </div>
     {% else %}
-        <p>No active reward set.</p>
-        <a href="{% url 'reward-create' child.id %}">
-            <button type="button">Create Reward</button>
-        </a>
+        <p>No active reward.</p>
+        <a href="{% url 'reward-create' child.id %}">Add a new one</a>
     {% endif %}
 
     <h3>Tasks</h3>

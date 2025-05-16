@@ -4,7 +4,8 @@ from .views import index, LoginView, LogoutView, SignUpView, ProfileView, ChildU
     EmailUpdateView, DeleteChildProfileView, DeleteParentProfileView, \
     ParentUsernameUpdateView, ChildUsernameUpdateView, ParentPasswordUpdateView, \
     ChildPasswordUpdateView, PreferencesUpdateView, TasksListView, TaskCreateView, TaskEditView, TaskDeleteView, \
-    TaskDetailView, RewardCreateView, RewardDeleteView, RewardEditView
+    TaskDetailView, RewardCreateView, RewardDeleteView, RewardEditView, StartTaskView, FinishTaskView, RewardClaimView, \
+    PauseTaskView, FinishEarlyTaskView
 
 urlpatterns = [
     path('', index, name='index'),
@@ -28,9 +29,14 @@ urlpatterns = [
     path('reward-create/<int:child_id>/', RewardCreateView.as_view(), name='reward-create'),
     path('child/<int:child_id>/reward-edit/<int:pk>/', RewardEditView.as_view(), name='reward-edit'),
     path('reward-delete/<int:child_id>/<int:pk>/', RewardDeleteView.as_view(), name='reward-delete'),
+    path('child/<int:child_id>/reward/<int:reward_id>/claim/', RewardClaimView.as_view(),name='reward-claim'),
     path('tasks/', TasksListView.as_view(), name='tasks'),
     path('tasks/<int:pk>/',TaskDetailView.as_view(), name='task-detail'),
     path('tasks/create/', TaskCreateView.as_view(), name='task-create'),
     path('tasks/<int:pk>/edit/', TaskEditView.as_view(), name='task-edit'),
     path('tasks/<int:pk>/delete/', TaskDeleteView.as_view(), name='task-delete'),
+    path('tasks/<int:pk>/start/', StartTaskView.as_view(), name='task-start'),
+    path('tasks/<int:pk>/pause/', PauseTaskView.as_view(), name='task-pause'),
+    path('tasks/<int:pk>/finish-early/', FinishEarlyTaskView.as_view(), name='task-finish-early'),
+    path('tasks/<int:pk>/finish/', FinishTaskView.as_view(), name='task-finish'),
 ]
