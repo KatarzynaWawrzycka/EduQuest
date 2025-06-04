@@ -1,15 +1,18 @@
 {% extends "eduquest_app/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Create reward" %} | EduQuest{% endblock %}
 
 {% block content %}
-<h2>Create Reward for {{ view.child.username }}</h2>
+<div class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+  <div class="w-100" style="max-width: 500px;">
+    <h2 class="text-center mb-4">{% trans "Create Reward for" %} {{ view.child.username }}</h2>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create Reward</button>
-</form>
-
-<a href="{% url 'manage-child-profile' child_id=view.child.id %}">
-    <button type="button">Cancel</button>
-</a>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary w-100 mb-2">{% trans "Save" %}</button>
+      <a href="{% url 'manage-child-profile' child_id=view.child.id %}" class="btn btn-outline-secondary w-100">{% trans "Cancel" %}</a>
+    </form>
+  </div>
+</div>
 {% endblock %}

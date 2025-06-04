@@ -1,15 +1,31 @@
 {% extends "eduquest_app/base.html" %}
+{% load i18n %}
+{% block title %} {% trans "Add task" %} | EduQuest{% endblock %}
 
 {% block content %}
-  <h2>Create New Task</h2>
+<div class="container my-5">
+  <h2 class="text-center mb-4">{% trans "Add task" %}</h2>
+    <form method="post" class="w-50 mx-auto">
+      {% csrf_token %}
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+      {% for field in form %}
+        <div class="mb-3 d-flex align-items-center" style="gap: 8px;">
+          <label for="{{ field.id_for_label }}" class="form-label" style="width: 20%; margin-right: 8px;">{{ field.label }}</label>
+          <div style="width: 80%;">
+            {{ field }}
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
 
-    <button type="submit">Create Task</button>
-    <a href="{% url 'tasks' %}">
-      <button type="button">Cancel</button>
-    </a>
-  </form>
+      <button type="submit" class="btn btn-primary w-100 mt-3">{% trans "Add task" %}</button>
+      <a href="{% url 'tasks' %}" class="btn btn-outline-secondary w-100 mt-2">{% trans "Cancel" %}</a>
+    </form>
+
+</div>
 {% endblock %}

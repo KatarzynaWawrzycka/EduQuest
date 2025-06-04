@@ -1,15 +1,40 @@
 {% extends "eduquest_app/base.html" %}
+{% load i18n %}
+{% block title %} {% trans "Task details" %} | EduQuest{% endblock %}
 
 {% block content %}
-    <h2>Task Details</h2>
+<div class="container my-4">
+  <h2 class="mb-4">Szczegóły zadania</h2>
 
-    <p><strong>Title:</strong> {{ task.title }}</p>
-    <p><strong>Subject:</strong> {{ task.subject.name }}</p>
-    <p><strong>Description:</strong><br> {{ task.description|linebreaks }}</p>
-    <p><strong>Due Date:</strong> {{ task.due_date }}</p>
-    <p><strong>Time:</strong> {{ task.time }} minutes</p>
-    <p><strong>Status:</strong> {{ task.get_status_display }}</p>
-    <p><strong>Points:</strong> {{ points }}</p>
+  <div class="card" style="background: transparent; box-shadow: none; border: 1px solid #8e9096;">
+    <div class="card-body">
+      <h5 class="card-title">{{ task.title }}</h5>
+      <h6 class="card-subtitle mb-3 text-muted">{{ task.subject }}</h6>
 
-    <a href="{% url 'tasks' %}">Back to Task List</a>
+      <p><strong>{% trans "Description" %}:</strong></p>
+      <p class="card-text">{{ task.description|linebreaks }}</p>
+
+      <ul class="list-group list-group-flush mb-3" style="background: transparent; border: none; padding-left: 0;">
+        <li class="list-group-item" style="background: transparent; border: none; border-bottom: 1px solid #8e9096; padding-left: 0; padding-top: 0.5rem; padding-bottom: 0.5rem;">
+          <strong>{% trans "Due date" %}:</strong> {{ task.due_date }}
+        </li>
+        <li class="list-group-item" style="background: transparent; border: none; border-bottom: 1px solid #8e9096; padding-left: 0; padding-top: 0.5rem; padding-bottom: 0.5rem;">
+          <strong>{% trans "Time" %}:</strong> {{ task.time }} min
+        </li>
+        <li class="list-group-item" style="background: transparent; border: none; border-bottom: 1px solid #8e9096; padding-left: 0; padding-top: 0.5rem; padding-bottom: 0.5rem;">
+          <strong>{% trans "Status" %}:</strong> {{ task.get_status_display }}
+        </li>
+        <li class="list-group-item" style="background: transparent; border: none; padding-left: 0; padding-top: 0.5rem; padding-bottom: 0.5rem;">
+          <strong>{% trans "Points" %}:</strong> {{ points }}
+        </li>
+      </ul>
+
+      {% if child_id %}
+        <a href="{% url 'manage-child-profile' child_id=child_id %}" class="btn btn-outline-secondary">{% trans "Back" %}</a>
+      {% else %}
+        <a href="{% url 'tasks' %}" class="btn btn-outline-primary">{% trans "Back" %}</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}

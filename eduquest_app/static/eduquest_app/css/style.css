@@ -1,0 +1,272 @@
+body {
+    margin: 0;
+    background-color: #fdfbf4;
+    font-family: "Inter", sans-serif;
+    height: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #3f8e9b;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+h2, h3, h4 {
+    font-family: "Fredoka", sans-serif;
+    margin-top: 15px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+a {
+    color: #f18d04;
+}
+
+.title {
+    font-family: "Fredoka", sans-serif;
+    font-weight: bold;
+}
+
+#slogan {
+     margin-bottom: 25px;
+}
+
+.intro-text {
+    margin: 50px 100px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+#info-1, #info-2 {
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.73);
+    margin: 0;
+}
+
+#info-1 {
+     margin-top: 20px;
+}
+
+.manage-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+#manage-back {
+    margin-top: 20px;
+}
+
+.vl {
+    border-left: 1px solid #2e6670;
+    margin: 0 30px;
+    align-self: stretch;
+}
+
+.btn.active {
+    background-color: #3f8e9b;
+    border: none;
+}
+
+.btn.active:hover {
+    background-color: #2e6670;
+}
+
+.btn-primary {
+    background-color: #3f8e9b;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #2e6670;
+}
+
+.btn-outline-primary {
+    color: #3f8e9b;
+    border-color: #3f8e9b;
+}
+
+.btn-outline-primary:hover {
+    color: white;
+    background-color: #2e6670;
+    border: none;
+}
+
+.btn-warning {
+    background-color: #e29315 !important;
+    color: white !important;
+    border: none !important;
+    font-weight: bold;
+}
+
+.btn-secondary {
+    background-color: #a7d0d2;
+    color: black;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-secondary:hover {
+    background-color: #3f8e9b;
+}
+
+.table-container {
+  padding: 20px; /* Odstęp od lewej i prawej */
+}
+
+table td, table th {
+  vertical-align: middle !important;
+}
+
+.centered-content {
+    display: flex;
+    justify-content: center; /* poziome wyśrodkowanie */
+    align-items: center;     /* pionowe wyśrodkowanie */
+    min-height: 75vh;
+}
+
+.two-column-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px; /* odstęp między kolumnami */
+}
+
+.left-column, .right-column {
+    width: 320px; /* szerokość kolumn */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* wyśrodkowanie zawartości kolumny */
+    text-align: center;  /* dodatkowe wyrównanie tekstu */
+}
+
+/* Dropdown: zajmują całą szerokość kolumny */
+.left-column .dropdown,
+.left-column .dropdown-toggle,
+.left-column .dropdown-menu {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Menu dropdown wyrównane do lewej krawędzi przycisku */
+.dropdown-menu {
+    left: 0 !important;
+    right: auto !important;
+}
+
+/* Styl li w dropdown menu */
+.dropdown-menu li {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Usuń linię pod ostatnim elementem */
+.dropdown-menu li:last-child {
+    border-bottom: none;
+}
+
+/* Li z formularzem (tekst + przycisk) - flex z justify space-between */
+.dropdown-menu li:has(form) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left; /* ważne, żeby tekst nie był wyśrodkowany */
+}
+
+/* Teksty w li bez formularza wyrównaj do lewej */
+.dropdown-menu li:not(:has(form)) {
+    text-align: left;
+}
+
+/* Odstęp między tekstem a przyciskiem w li z formą */
+.dropdown-menu li:has(form) > span,
+.dropdown-menu li:has(form) > strong {
+    margin-right: 1rem;
+}
+
+/* Przyciski Update mają białą czcionkę, border i są wyrównane na prawo przez flex */
+.dropdown-menu li form button {
+    white-space: nowrap;
+}
+
+.children-list li{
+    margin: 10px 0;
+}
+
+#prefernce-message {
+    margin: 10px 0;
+}
+
+.one-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* poziome wyśrodkowanie */
+    align-items: center;     /* pionowe wyśrodkowanie */
+    min-height: 75vh;
+}
+
+select {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+select:focus {
+border-color: #66afe9;
+box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* opcjonalne przyciemnienie */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+/* Styl dla zawartości modalnej */
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 1000px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+#run-controls, #pause-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 1em;
+}
+
+#task-gif {
+  display: block;
+  margin: 1em auto;
+  max-width: 100%;
+}

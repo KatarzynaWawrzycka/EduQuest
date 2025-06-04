@@ -1,22 +1,48 @@
 {% extends "eduquest_app/base.html" %}
+{% load i18n %}
+{% block title %} {% trans "Username update" %} | EduQuest{% endblock %}
 
 {% block content %}
-  <h2>Update Username{% if child_id %} (Child #{{ child_id }}){% endif %}</h2>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div style="min-width: 300px; max-width: 400px; width: 100%;">
+    <h2 class="text-center mb-4">
+      {% trans "Update username" %}
+    </h2>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-info" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
 
-    <button type="submit">Update Username</button>
-  </form>
+    <form method="post">
+      {% csrf_token %}
 
-  {% if child_id %}
-    <a href="{% url 'manage-child-profile' %}">
-      <button type="button">Back</button>
-    </a>
-  {% else %}
-    <a href="{% url 'profile' %}">
-      <button type="button">Cancel</button>
-    </a>
-  {% endif %}
+      {% for field in form %}
+        <div class="mb-3">
+          {{ field.label_tag }}
+          {{ field }}
+
+          {% for error in field.errors %}
+            <div class="text-danger" style="font-size: 0.85rem;">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">{% trans "Update Username" %}</button>
+      </div>
+    </form>
+
+    <div class="mt-3 text-center">
+      {% if child_id %}
+        <a href="{% url 'manage-child-profile' child_id %}" class="btn btn-outline-secondary">{% trans "Canel" %}</a>
+      {% else %}
+        <a href="{% url 'profile' %}" class="btn btn-outline-secondary">{% trans "Cancel" %}</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}

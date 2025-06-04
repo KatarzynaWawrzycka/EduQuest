@@ -1,0 +1,2156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-04 05:30+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
+"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
+"n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+#: .\eduquest_app\forms.py:10 .\eduquest_app\models.py:97
+msgid "Not applicable"
+msgstr "Nie dotyczy"
+
+#: .\eduquest_app\forms.py:11 .\eduquest_app\models.py:97
+msgid "Very easy"
+msgstr "Bardzo łatwy"
+
+#: .\eduquest_app\forms.py:12 .\eduquest_app\models.py:97
+msgid "Quite easy"
+msgstr "Raczej łatwy"
+
+#: .\eduquest_app\forms.py:13 .\eduquest_app\models.py:97
+msgid "Normal"
+msgstr "Normalny"
+
+#: .\eduquest_app\forms.py:14 .\eduquest_app\models.py:97
+msgid "Quite hard"
+msgstr "Raczej trudny"
+
+#: .\eduquest_app\forms.py:15 .\eduquest_app\models.py:97
+msgid "Very hard"
+msgstr "Bardzo trudny"
+
+#: .\eduquest_app\forms.py:19 .\eduquest_app\forms.py:161
+msgid "Confirm password"
+msgstr "Potwierdź hasło"
+
+#: .\eduquest_app\forms.py:27
+msgid "Required. Please enter your email address."
+msgstr "Pole wymagane. Podaj adres email."
+
+#: .\eduquest_app\forms.py:39
+msgid "This email is already taken."
+msgstr "Ten adres email jest już zajęty."
+
+#: .\eduquest_app\forms.py:42 .\eduquest_app\forms.py:156
+msgid "This username is already taken."
+msgstr "Ten login jest już zajęty."
+
+#: .\eduquest_app\forms.py:66
+#, fuzzy
+#| msgid "This username is already taken."
+msgid "This username is already in use."
+msgstr "Ten login jest już zajęty."
+
+#: .\eduquest_app\forms.py:82
+msgid "Login"
+msgstr "Login"
+
+#: .\eduquest_app\forms.py:97
+msgid "User with this username does not exist."
+msgstr "Użytkownik o takim loginie nie istnieje."
+
+#: .\eduquest_app\forms.py:102
+msgid "Incorrect password."
+msgstr "Błędne hasło."
+
+#: .\eduquest_app\forms.py:107
+#, python-format
+msgid "Grade %d"
+msgstr "Klasa %d"
+
+#: .\eduquest_app\forms.py:108
+msgid "Select grade"
+msgstr "Wybierz klasę"
+
+#: .\eduquest_app\forms.py:131
+msgid "Please select a difficulty level for at least one subject."
+msgstr "Proszę wybrać poziom trudności dla co najmniej jednego przedmiotu."
+
+#: .\eduquest_app\forms.py:135
+msgid "New email address"
+msgstr "Nowy adres email"
+
+#: .\eduquest_app\forms.py:144
+msgid "This email is already in use."
+msgstr "Ten adres email jest już zajęty."
+
+#: .\eduquest_app\forms.py:148
+msgid "New username"
+msgstr "Nowy login"
+
+#: .\eduquest_app\forms.py:160
+msgid "New password"
+msgstr "Nowe hasło"
+
+#: .\eduquest_app\forms.py:160
+msgid "Set new password"
+msgstr "Wpisz nowe hasło"
+
+#: .\eduquest_app\forms.py:161
+msgid "Repeat new password"
+msgstr "Powtórz nowe hasło"
+
+#: .\eduquest_app\forms.py:166
+msgid "Passwords don't match"
+msgstr "Hasła się nie zgadzają"
+
+#: .\eduquest_app\forms.py:174 .\eduquest_app\forms.py:178
+msgid "Reward name"
+msgstr "Nazwa nagrody"
+
+#: .\eduquest_app\forms.py:179
+msgid "Points required"
+msgstr "Wymagane punkty"
+
+#: .\eduquest_app\forms.py:185
+msgid "Reward must require at least 10 points."
+msgstr "Nagroda musi mieć wymagane minimum 10 punktów"
+
+#: .\eduquest_app\forms.py:194
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:133
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:159
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:192
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:224
+#: .\eduquest_app\templates\eduquest_app\task_list.html:24
+#: .\eduquest_app\templates\eduquest_app\task_list.html:61
+#: .\eduquest_app\templates\eduquest_app\task_list.html:133
+#: .\eduquest_app\templates\eduquest_app\task_list.html:194
+msgid "Title"
+msgstr "Tytuł"
+
+#: .\eduquest_app\forms.py:195
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:133
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:159
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:192
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:224
+#: .\eduquest_app\templates\eduquest_app\task_list.html:24
+#: .\eduquest_app\templates\eduquest_app\task_list.html:61
+#: .\eduquest_app\templates\eduquest_app\task_list.html:133
+#: .\eduquest_app\templates\eduquest_app\task_list.html:194
+msgid "Subject"
+msgstr "Przedmiot"
+
+#: .\eduquest_app\forms.py:196
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:133
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:159
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:192
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:224
+#: .\eduquest_app\templates\eduquest_app\task_detail.html:14
+#: .\eduquest_app\templates\eduquest_app\task_list.html:24
+#: .\eduquest_app\templates\eduquest_app\task_list.html:61
+#: .\eduquest_app\templates\eduquest_app\task_list.html:133
+#: .\eduquest_app\templates\eduquest_app\task_list.html:194
+msgid "Description"
+msgstr "Opis"
+
+#: .\eduquest_app\forms.py:197
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:133
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:159
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:192
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:224
+#: .\eduquest_app\templates\eduquest_app\task_detail.html:19
+#: .\eduquest_app\templates\eduquest_app\task_list.html:24
+#: .\eduquest_app\templates\eduquest_app\task_list.html:61
+#: .\eduquest_app\templates\eduquest_app\task_list.html:133
+#: .\eduquest_app\templates\eduquest_app\task_list.html:194
+msgid "Due date"
+msgstr "Termin"
+
+#: .\eduquest_app\forms.py:198
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:133
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:159
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:192
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:224
+#: .\eduquest_app\templates\eduquest_app\task_detail.html:22
+#: .\eduquest_app\templates\eduquest_app\task_list.html:24
+#: .\eduquest_app\templates\eduquest_app\task_list.html:61
+#: .\eduquest_app\templates\eduquest_app\task_list.html:133
+#: .\eduquest_app\templates\eduquest_app\task_list.html:194
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2534
+msgid "Time"
+msgstr "Czas"
+
+#: .\eduquest_app\forms.py:224
+msgid "Due date cannot be in the past."
+msgstr "Termin wykonania nie może być wcześniejszy niż dzisiaj"
+
+#: .\eduquest_app\forms.py:227
+msgid "Time must be at least 5 minutes."
+msgstr "Na zadanie trzeba przeznaczyć minimum 5 minut"
+
+#: .\eduquest_app\models.py:73
+msgid "Mathematics"
+msgstr "Matematyka"
+
+#: .\eduquest_app\models.py:74
+msgid "Polish Language"
+msgstr "Język polski"
+
+#: .\eduquest_app\models.py:75
+msgid "English Language"
+msgstr "Język angielski"
+
+#: .\eduquest_app\models.py:76
+msgid "History"
+msgstr "Historia"
+
+#: .\eduquest_app\models.py:77
+msgid "Science"
+msgstr "Przyroda"
+
+#: .\eduquest_app\models.py:78
+msgid "Computer Science"
+msgstr "Informatyka"
+
+#: .\eduquest_app\models.py:125
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:121
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:155
+#: .\eduquest_app\templates\eduquest_app\task_list.html:11
+#: .\eduquest_app\templates\eduquest_app\task_list.html:55
+msgid "To do"
+msgstr "Do zrobienia"
+
+#: .\eduquest_app\models.py:126
+msgid "Started"
+msgstr "Rozpoczęte"
+
+#: .\eduquest_app\models.py:127
+msgid "Done"
+msgstr "Wykonane"
+
+#: .\eduquest_app\models.py:128
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:123
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:220
+#: .\eduquest_app\templates\eduquest_app\task_list.html:13
+#: .\eduquest_app\templates\eduquest_app\task_list.html:189
+msgid "Overdue"
+msgstr "Po terminie"
+
+
+msgid "Time in minutes"
+msgstr "Czas w minutach"
+
+#: .\eduquest_app\templates\eduquest_app\add_child_user.html:3
+msgid "Add child profile"
+msgstr "Dodaj profil dziecka"
+
+#: .\eduquest_app\templates\eduquest_app\add_child_user.html:8
+msgid "Create a child's account"
+msgstr "Utwórz profil dla dziecka"
+
+#: .\eduquest_app\templates\eduquest_app\add_child_user.html:43
+msgid "Create"
+msgstr "Utwórz"
+
+#: .\eduquest_app\templates\eduquest_app\add_child_user.html:44
+#: .\eduquest_app\templates\eduquest_app\delete_child_profile_confirmation.html:20
+#: .\eduquest_app\templates\eduquest_app\delete_parent_profile_confirmation.html:26
+#: .\eduquest_app\templates\eduquest_app\email_update.html:40
+#: .\eduquest_app\templates\eduquest_app\password_update.html:58
+#: .\eduquest_app\templates\eduquest_app\password_update.html:60
+#: .\eduquest_app\templates\eduquest_app\preferences_update.html:28
+#: .\eduquest_app\templates\eduquest_app\reward_create.html:14
+#: .\eduquest_app\templates\eduquest_app\reward_delete.html:14
+#: .\eduquest_app\templates\eduquest_app\set_preference.html:27
+#: .\eduquest_app\templates\eduquest_app\task_create.html:27
+#: .\eduquest_app\templates\eduquest_app\task_delete.html:13
+#: .\eduquest_app\templates\eduquest_app\task_edit.html:28
+#: .\eduquest_app\templates\eduquest_app\task_list.html:270
+#: .\eduquest_app\templates\eduquest_app\username_update.html:43
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: .\eduquest_app\templates\eduquest_app\base.html:29
+msgid "Dashboard"
+msgstr "Panel rodzica"
+
+#: .\eduquest_app\templates\eduquest_app\base.html:32
+#: .\eduquest_app\templates\eduquest_app\base.html:35
+msgid "Task List"
+msgstr "Lista zadań"
+
+#: .\eduquest_app\templates\eduquest_app\base.html:44
+msgid "Welcome back,"
+msgstr "Witaj z powrotem, "
+
+#: .\eduquest_app\templates\eduquest_app\base.html:48
+#: .\eduquest_app\templates\eduquest_app\child_first_login.html:11
+msgid "Logout"
+msgstr "Wyloguj się"
+
+#: .\eduquest_app\templates\eduquest_app\base.html:52
+#: .\eduquest_app\templates\eduquest_app\login.html:3
+#: .\eduquest_app\templates\eduquest_app\login.html:8
+#: .\eduquest_app\templates\eduquest_app\login.html:54
+#: .\eduquest_app\templates\eduquest_app\signup.html:58
+msgid "Log in"
+msgstr "Zaloguj się"
+
+#: .\eduquest_app\templates\eduquest_app\base.html:53
+#: .\eduquest_app\templates\eduquest_app\login.html:59
+#: .\eduquest_app\templates\eduquest_app\signup.html:3
+#: .\eduquest_app\templates\eduquest_app\signup.html:8
+#: .\eduquest_app\templates\eduquest_app\signup.html:53
+msgid "Sign up"
+msgstr "Zarejestruj się"
+
+#: .\eduquest_app\templates\eduquest_app\base.html:58
+msgid ""
+"You can’t access the task list until your preferences are set by a parent."
+msgstr "Lista zadań będzie dostępna, gdy rodzic ustawi Twoje preferencje."
+
+#: .\eduquest_app\templates\eduquest_app\base.html:101
+#: .\eduquest_app\templates\eduquest_app\base.html:107
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:86
+msgid "pts"
+msgstr "pkt"
+
+#: .\eduquest_app\templates\eduquest_app\base.html:107
+msgid "Points earned today:"
+msgstr "Punkty zdobyte dzisiaj:"
+
+#: .\eduquest_app\templates\eduquest_app\base.html:114
+msgid "Congratulations! You've reached the required points for this reward!"
+msgstr "Gratulacje! Masz już wystarczająco dużo punktów na tę nagrodę!"
+
+#: .\eduquest_app\templates\eduquest_app\child_first_login.html:3
+msgid "First login"
+msgstr "Pierwsze logowanie"
+
+#: .\eduquest_app\templates\eduquest_app\child_first_login.html:8
+msgid ""
+"Log out and ask your parent to fill out your preferences form (on their "
+"account)."
+msgstr ""
+"Wyloguj się i poproś rodzica o wypełnienie formularza preferencji (na swoim "
+"profilu)"
+
+#: .\eduquest_app\templates\eduquest_app\delete_child_profile_confirmation.html:3
+#: .\eduquest_app\templates\eduquest_app\delete_parent_profile_confirmation.html:3
+msgid "Confirm profile deletion"
+msgstr "Potwierdź usunięcie profilu"
+
+#: .\eduquest_app\templates\eduquest_app\delete_child_profile_confirmation.html:7
+#: .\eduquest_app\templates\eduquest_app\delete_parent_profile_confirmation.html:9
+#: .\eduquest_app\templates\eduquest_app\task_delete.html:7
+msgid "Confirm deletion"
+msgstr "Potwierdź usunięcie"
+
+#: .\eduquest_app\templates\eduquest_app\delete_child_profile_confirmation.html:9
+msgid "Are you sure you want to delete the account for child"
+msgstr "Czy na pewno chcesz usunąć profil dziecka"
+
+#: .\eduquest_app\templates\eduquest_app\delete_child_profile_confirmation.html:10
+msgid "This action cannot be undone."
+msgstr "Nie można później tego cofnąć."
+
+#: .\eduquest_app\templates\eduquest_app\delete_child_profile_confirmation.html:16
+#: .\eduquest_app\templates\eduquest_app\reward_delete.html:13
+#: .\eduquest_app\templates\eduquest_app\task_delete.html:12
+msgid "Yes, delete"
+msgstr "Tak, usuń"
+
+#: .\eduquest_app\templates\eduquest_app\delete_parent_profile_confirmation.html:11
+#, fuzzy
+#| msgid ""
+#| "Your account and all linked children's accounts were successfully deleted."
+msgid ""
+"This will delete your account and all associated child accounts permanently."
+msgstr "Twój profil i profile twoich dzieci zostaną usunięte."
+
+#: .\eduquest_app\templates\eduquest_app\delete_parent_profile_confirmation.html:18
+msgid "Enter your password to confirm:"
+msgstr "Wpisz hasło, aby usunąć profil:"
+
+#: .\eduquest_app\templates\eduquest_app\delete_parent_profile_confirmation.html:22
+msgid "Yes, delete my account"
+msgstr "Tak, usuń mój profil"
+
+#: .\eduquest_app\templates\eduquest_app\email_update.html:3
+msgid "Email update"
+msgstr "Zmiana adresu email"
+
+#: .\eduquest_app\templates\eduquest_app\email_update.html:9
+#: .\eduquest_app\templates\eduquest_app\email_update.html:35
+msgid "Update email"
+msgstr "Zmień adres email"
+
+#: .\eduquest_app\templates\eduquest_app\index.html:8
+msgid "Turn homework into an adventure"
+msgstr "Zamień naukę w przygodę"
+
+#: .\eduquest_app\templates\eduquest_app\index.html:10
+msgid "How to use the app?"
+msgstr "Jak korzystać z aplikacji?"
+
+#: .\eduquest_app\templates\eduquest_app\index.html:12
+msgid "Parents – set the rules of the game"
+msgstr "Rodzice – ustalcie zasady gry"
+
+#: .\eduquest_app\templates\eduquest_app\index.html:14
+msgid ""
+"Create an account for you and your kid. Fill out a short form together – for "
+"each subject, choose how difficult it is for your kid. Points earned from "
+"tasks will depend on this. You can also set a reward your kid will receive "
+"after collecting enough points."
+msgstr ""
+"Załóż konta dla siebie i dziecka. Wypełnijcie razem krótki formularz – przy "
+"każdym przedmiocie zaznacz, jaki poziom trudności sprawia dziecku. Na tej "
+"podstawie dziecko będzie dostawać punkty za wykonane zadania. Możesz też "
+"ustalić nagrodę, którą otrzyma dziecko po zdobyciu odpowiedniej liczby "
+"punktów."
+
+#: .\eduquest_app\templates\eduquest_app\index.html:17
+msgid "Kids – take on the challenge"
+msgstr "Dzieci – podejmijcie wyzwanie"
+
+#: .\eduquest_app\templates\eduquest_app\index.html:19
+msgid ""
+"Log in with the account your parent made. Create your own homework task list "
+"and set time goals. Each time you finish a task, you earn points – the "
+"harder the task, the more you get. Collect points and claim your reward! "
+"Don’t worry, you won’t be alone – Eddie the raccoon will be right there "
+"studying with you."
+msgstr ""
+"Zaloguj się na konto utworzone przez rodzica. Stwórz własną listę zadań i "
+"ustal czas na ich wykonanie. Za każde wykonane zadanie zdobywasz punkty – im "
+"trudniejsze, tym więcej. Zbieraj punkty i odbieraj nagrody! Nie martw się, "
+"nie będziesz sam – przez cały czas będzie towarzyszył ci szop Edek i uczył "
+"się razem z tobą."
+
+#: .\eduquest_app\templates\eduquest_app\index.html:22
+msgid "Eddie the raccoon sitting at the desk, looking and waving at you."
+msgstr "Szop Edek siedzi przy biurku i macha do ciebie z uśmiechem."
+
+#: .\eduquest_app\templates\eduquest_app\login.html:59
+msgid "Don't have an account yet?"
+msgstr "Nie masz jeszcze konta?"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:3
+msgid "Child profile"
+msgstr "Profil dziecka"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:8
+#: .\eduquest_app\templates\eduquest_app\task_detail.html:33
+#: .\eduquest_app\templates\eduquest_app\task_detail.html:35
+msgid "Back"
+msgstr "Powrót"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:11
+msgid "Manage Child's Profile"
+msgstr "Zarządzaj profilem dziecka"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:18
+#: .\eduquest_app\templates\eduquest_app\profile.html:12
+#: .\eduquest_app\templates\eduquest_app\profile.html:20
+msgid "Username"
+msgstr "Login"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:20
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:29
+#: .\eduquest_app\templates\eduquest_app\profile.html:22
+#: .\eduquest_app\templates\eduquest_app\profile.html:31
+#: .\eduquest_app\templates\eduquest_app\profile.html:37
+msgid "Update"
+msgstr "Zmień"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:24
+#: .\eduquest_app\templates\eduquest_app\profile.html:26
+msgid "Role"
+msgstr "Rola"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:34
+msgid "Delete profile"
+msgstr "Usuń profil"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:45
+#: .\eduquest_app\templates\eduquest_app\set_preference.html:3
+msgid "Preferences"
+msgstr "Preferencje"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:47
+msgid "Grade"
+msgstr "Klasa"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:49
+msgid "Grade not set."
+msgstr "Nie wybrano klasy."
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:59
+#: .\eduquest_app\templates\eduquest_app\preferences_update.html:3
+msgid "Change preferences"
+msgstr "Zmień preferencje"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:62
+msgid "No preferences set or all marked as Not applicable."
+msgstr "Nie ustawiono preferencji lub oznaczono wszystkie jako Nie dotyczy"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:70
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:74
+#, fuzzy
+#| msgid "Reward name"
+msgid "Reward"
+msgstr "Nazwa nagrody"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:92
+msgid "Congratulations!"
+msgstr "Gratulacje!"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:92
+msgid "has earned the reward!"
+msgstr "zdobył/a nagrodę!"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:104
+#: .\eduquest_app\templates\eduquest_app\task_list.html:77
+msgid "Edit"
+msgstr "Edytuj"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:105
+#: .\eduquest_app\templates\eduquest_app\task_list.html:78
+#: .\venv\Lib\site-packages\django\forms\formsets.py:499
+msgid "Delete"
+msgstr "Usuń"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:111
+msgid "No active reward."
+msgstr "Brak aktywnej nagrody."
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:112
+msgid "Add reward"
+msgstr "Dodaj nagrodę"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:118
+#, fuzzy
+msgid "Tasks"
+msgstr "Lista zadań"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:122
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:188
+#: .\eduquest_app\templates\eduquest_app\task_list.html:12
+#: .\eduquest_app\templates\eduquest_app\task_list.html:128
+msgid "Finished"
+msgstr "Zrobione"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:129
+msgid "In Progress"
+msgstr "W trakcie"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:133
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:159
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:192
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:224
+#: .\eduquest_app\templates\eduquest_app\task_detail.html:28
+#: .\eduquest_app\templates\eduquest_app\task_list.html:24
+#: .\eduquest_app\templates\eduquest_app\task_list.html:61
+#: .\eduquest_app\templates\eduquest_app\task_list.html:133
+#: .\eduquest_app\templates\eduquest_app\task_list.html:194
+msgid "Points"
+msgstr "Punkty"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:146
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:172
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:205
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:237
+#: .\eduquest_app\templates\eduquest_app\task_list.html:44
+#: .\eduquest_app\templates\eduquest_app\task_list.html:76
+#: .\eduquest_app\templates\eduquest_app\task_list.html:152
+#: .\eduquest_app\templates\eduquest_app\task_list.html:207
+msgid "Details"
+msgstr "Szczegóły"
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:181
+msgid "No tasks to do or in progress."
+msgstr "Brak zadań do zrobienia."
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:213
+#: .\eduquest_app\templates\eduquest_app\task_list.html:159
+msgid "No finished tasks."
+msgstr "Brak ukończonych zadań."
+
+#: .\eduquest_app\templates\eduquest_app\manage_child_profile.html:244
+#: .\eduquest_app\templates\eduquest_app\task_list.html:214
+msgid "No overdue tasks."
+msgstr "Brak zadań po terminie."
+
+#: .\eduquest_app\templates\eduquest_app\password_update.html:3
+msgid "Password update"
+msgstr "Zmiana hasła"
+
+#: .\eduquest_app\templates\eduquest_app\password_update.html:9
+#, fuzzy
+#| msgid "Repeat new password"
+msgid "Update password"
+msgstr "Powtórz nowe hasło"
+
+#: .\eduquest_app\templates\eduquest_app\password_update.html:52
+#, fuzzy
+#| msgid "Repeat new password"
+msgid "Update Password"
+msgstr "Powtórz nowe hasło"
+
+#: .\eduquest_app\templates\eduquest_app\preferences_update.html:8
+msgid "Edit preferences for"
+msgstr "Zmień preferencje użytkownika"
+
+#: .\eduquest_app\templates\eduquest_app\preferences_update.html:24
+#: .\eduquest_app\templates\eduquest_app\reward_create.html:13
+#: .\eduquest_app\templates\eduquest_app\reward_edit.html:14
+#: .\eduquest_app\templates\eduquest_app\set_preference.html:24
+#: .\eduquest_app\templates\eduquest_app\task_edit.html:27
+msgid "Save"
+msgstr "Zapisz"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:3
+msgid "Parent profile"
+msgstr "Profil rodzica"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:11
+msgid "Your profile"
+msgstr "Twój profil"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:16
+msgid "Manage Profile"
+msgstr "Zarządzaj profilem"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:29
+msgid "Email"
+msgstr "Adres email"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:35
+#, fuzzy
+#| msgid "New password"
+msgid "Password"
+msgstr "Nowe hasło"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:42
+msgid "Delete my profile"
+msgstr "Usuń mój profil"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:55
+msgid "Your children's profiles"
+msgstr "Profile twoich dzieci"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:59
+msgid "Add profile"
+msgstr "Dodaj profil"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:65
+msgid "One or more children don't have preferences set yet!"
+msgstr "Jedno lub więcej dzieci nie ma ustalonych preferencji"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:79
+msgid "Manage profile"
+msgstr "Zarządzaj profilem"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:83
+msgid "Set preferences"
+msgstr "Ustaw preferencje"
+
+#: .\eduquest_app\templates\eduquest_app\profile.html:90
+msgid "You haven't added any child profiles yet."
+msgstr "Nie dodano jeszcze profilu dla dziecka."
+
+#: .\eduquest_app\templates\eduquest_app\reward_create.html:3
+msgid "Create reward"
+msgstr "Utwórz nagrodę"
+
+#: .\eduquest_app\templates\eduquest_app\reward_create.html:8
+msgid "Create Reward for"
+msgstr "Utwórz nagrodę dla użytkownika"
+
+#: .\eduquest_app\templates\eduquest_app\reward_delete.html:3
+#: .\eduquest_app\templates\eduquest_app\reward_delete.html:8
+msgid "Delete reward"
+msgstr "Usuń nagrodę"
+
+#: .\eduquest_app\templates\eduquest_app\reward_delete.html:9
+msgid "Are you sure you want to delete the reward"
+msgstr "Czy na pewno chcesz usunąć nagrodę"
+
+#: .\eduquest_app\templates\eduquest_app\reward_delete.html:9
+msgid "for user"
+msgstr "dla użytkownika"
+
+#: .\eduquest_app\templates\eduquest_app\reward_edit.html:3
+#: .\eduquest_app\templates\eduquest_app\reward_edit.html:8
+msgid "Edit reward"
+msgstr "Edytuj nagrodę"
+
+#: .\eduquest_app\templates\eduquest_app\reward_edit.html:15
+#: .\eduquest_app\templates\eduquest_app\username_update.html:41
+msgid "Canel"
+msgstr "Anuluj"
+
+#: .\eduquest_app\templates\eduquest_app\set_preference.html:8
+msgid "Set preferences for user"
+msgstr "Ustaw preferencje dla użytkownika"
+
+#: .\eduquest_app\templates\eduquest_app\signup.html:13
+msgid "There were some problems with your submission"
+msgstr "Wystąpiły problemy podczas rejestracji"
+
+#: .\eduquest_app\templates\eduquest_app\signup.html:58
+msgid "Already have an account"
+msgstr "Masz już konto"
+
+#: .\eduquest_app\templates\eduquest_app\task_create.html:3
+#: .\eduquest_app\templates\eduquest_app\task_create.html:7
+#: .\eduquest_app\templates\eduquest_app\task_create.html:26
+#: .\eduquest_app\templates\eduquest_app\task_list.html:8
+msgid "Add task"
+msgstr "Dodaj zadanie"
+
+#: .\eduquest_app\templates\eduquest_app\task_delete.html:3
+msgid "Delete task"
+msgstr "Usuń zadanie"
+
+#: .\eduquest_app\templates\eduquest_app\task_delete.html:8
+msgid "Are you sure you want to delete the task"
+msgstr "Czy na pewno chcesz usunąć zadanie"
+
+#: .\eduquest_app\templates\eduquest_app\task_detail.html:3
+#: .\eduquest_app\templates\eduquest_app\task_detail.html:7
+#, fuzzy
+#| msgid "Task List"
+msgid "Task details"
+msgstr "Szczegóły zadania"
+
+#: .\eduquest_app\templates\eduquest_app\task_detail.html:25
+msgid "Status"
+msgstr "Status"
+
+#: .\eduquest_app\templates\eduquest_app\task_edit.html:3
+#: .\eduquest_app\templates\eduquest_app\task_edit.html:7
+msgid "Edit task"
+msgstr "Edytuj zadanie"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:3
+#, fuzzy
+#| msgid "Task List"
+msgid "Task list"
+msgstr "Lista zadań"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:7
+msgid "Your tasks"
+msgstr "Twoja lista zadań"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:18
+msgid "In progress"
+msgstr "W trakcie"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:24
+#: .\eduquest_app\templates\eduquest_app\task_list.html:61
+#: .\eduquest_app\templates\eduquest_app\task_list.html:133
+#: .\eduquest_app\templates\eduquest_app\task_list.html:194
+msgid "Actions"
+msgstr "Akcje"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:42
+#: .\eduquest_app\templates\eduquest_app\task_list.html:256
+#: .\eduquest_app\views.py:572
+msgid "Continue"
+msgstr "Kontynuuj"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:51
+msgid "No tasks in progress."
+msgstr "Brak rozpoczętych zadań."
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:86
+#: .\eduquest_app\views.py:572
+msgid "Start"
+msgstr "Start"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:99
+msgid "No tasks to do."
+msgstr "Brak zadań do zrobienia."
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:108
+#: .\eduquest_app\templates\eduquest_app\task_list.html:168
+#: .\eduquest_app\templates\eduquest_app\task_list.html:223
+msgid "Previous"
+msgstr "Poprzednia"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:118
+#: .\eduquest_app\templates\eduquest_app\task_list.html:178
+#: .\eduquest_app\templates\eduquest_app\task_list.html:233
+msgid "Next"
+msgstr "Następna"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:250
+msgid "Time left:"
+msgstr "Pozostały czas:"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:253
+msgid "Stop"
+msgstr "Stop"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:257
+msgid "Save and exit"
+msgstr "Zapisz i wyjdź"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:258
+msgid "Finish early"
+msgstr "Zakończ przed czasem"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:266
+msgid "Enter parent's password"
+msgstr "Hasło rodzica"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:267
+#, fuzzy
+#| msgid "New password"
+msgid "Parent password"
+msgstr "Nowe hasło"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:269
+#, fuzzy
+#| msgid "Confirm password"
+msgid "Confirm"
+msgstr "Potwierdź"
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:272
+#, fuzzy
+#| msgid "Incorrect password."
+msgid "Incorrect password"
+msgstr "Błędne hasło."
+
+#: .\eduquest_app\templates\eduquest_app\task_list.html:279
+msgid "Time is up!"
+msgstr "Czas minął!"
+
+#: .\eduquest_app\templates\eduquest_app\username_update.html:3
+msgid "Username update"
+msgstr "Zmiana loginu"
+
+#: .\eduquest_app\templates\eduquest_app\username_update.html:9
+msgid "Update username"
+msgstr "Zmień login"
+
+#: .\eduquest_app\templates\eduquest_app\username_update.html:35
+#, fuzzy
+#| msgid "Update username"
+msgid "Update Username"
+msgstr "Zmień login"
+
+#: .\eduquest_app\views.py:66
+#, fuzzy, python-format
+#| msgid "Child %(username)s registered successfully!"
+msgid "Child %(username) registered successfully!"
+msgstr "Użytkownik %(username)s zarejestrowany pomyślnie!"
+
+#: .\eduquest_app\views.py:91
+msgid "User registered successfully!"
+msgstr "Rejestracja zakończona sukcesem!"
+
+#: .\eduquest_app\views.py:100
+msgid ""
+"Your preferences aren't set yet. Your parent must fill out a form first."
+msgstr ""
+"Nie masz jeszcze ustalonych preferencji. Poproś rodzica o wypełnienie "
+"formularza na jego koncie."
+
+#: .\eduquest_app\views.py:151
+msgid "Your preferences were successfully updated!"
+msgstr "Preferencje zostały zaktualizowane!"
+
+#: .\eduquest_app\views.py:281
+#, fuzzy
+msgid "Email updated successfully!"
+msgstr "Adres email został zaktualizowany!"
+
+#: .\eduquest_app\views.py:292
+msgid "Only parents can access this page."
+msgstr "Tylko rodzic ma dostęp do tej strony."
+
+#: .\eduquest_app\views.py:299 .\eduquest_app\views.py:314
+msgid "Username updated successfully!"
+msgstr "Login został zaktualizowany!"
+
+#: .\eduquest_app\views.py:329 .\eduquest_app\views.py:349
+msgid "Password updated successfully!"
+msgstr "Hasło zostało zaktualizowane!"
+
+#: .\eduquest_app\views.py:333 .\eduquest_app\views.py:353
+msgid "Passwords don't match."
+msgstr "Hasłą się nie zgadzają."
+
+#: .\eduquest_app\views.py:368
+msgid ""
+"Your account and all linked children's accounts were successfully deleted."
+msgstr "Twój profil i profile twoich dzieci zostały usunięte."
+
+#: .\eduquest_app\views.py:371
+msgid "Password incorrect.Try again."
+msgstr "Niepoprawne hasło. Spróbuj jeszcze raz."
+
+#: .\eduquest_app\views.py:390
+msgid "Child profile deleted successfully!"
+msgstr "Profil dziecka został usunięty."
+
+#: .\eduquest_app\views.py:433
+msgid "Preferences updated successfully!"
+msgstr "Preferencje zostały zaktualizowane!"
+
+#: .\eduquest_app\views.py:494
+#, fuzzy, python-format
+#| msgid "Reward \"%(reward_name)\" marked as claimed"
+msgid "Reward \"%(reward_name)s\" marked as claimed"
+msgstr "Nagroda \"%(reward_name)\" zostałą odebrana."
+
+#: .\eduquest_app\views.py:701
+msgid "Parent not found"
+msgstr "Nie znaleziono profilu rodzica"
+
+#: .\eduquest_app\views.py:711
+#, fuzzy
+#| msgid "Confirm password"
+msgid "Invalid password"
+msgstr "Błędne hasło"
+
+#: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
+msgid "Messages"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
+msgid "Site Maps"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: .\venv\Lib\site-packages\django\core\paginator.py:30
+msgid "…"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:32
+msgid "That page number is not an integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:33
+msgid "That page number is less than 1"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:34
+msgid "That page contains no results"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:22
+msgid "Enter a valid value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:70
+msgid "Enter a valid domain name."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:153
+#: .\venv\Lib\site-packages\django\forms\fields.py:775
+msgid "Enter a valid URL."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:200
+msgid "Enter a valid integer."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:211
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: .\venv\Lib\site-packages\django\core\validators.py:289
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:297
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:309
+#: .\venv\Lib\site-packages\django\core\validators.py:318
+#: .\venv\Lib\site-packages\django\core\validators.py:332
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2220
+#, python-format
+msgid "Enter a valid %(protocol)s address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:311
+msgid "IPv4"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:320
+#: .\venv\Lib\site-packages\django\utils\ipv6.py:43
+msgid "IPv6"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:334
+msgid "IPv4 or IPv6"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:375
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:381
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:416
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:425
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:434
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:441
+#, python-format
+msgid ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:473
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:491
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:514
+#: .\venv\Lib\site-packages\django\forms\fields.py:366
+#: .\venv\Lib\site-packages\django\forms\fields.py:405
+msgid "Enter a number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:516
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:521
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:526
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:597
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:659
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1600
+#: .\venv\Lib\site-packages\django\forms\models.py:908
+msgid "and"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1602
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\constraints.py:22
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:134
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:135
+msgid "This field cannot be null."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:136
+msgid "This field cannot be blank."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:137
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:141
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:180
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1162
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1163
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1165
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1215
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1217
+msgid "String (unlimited)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1326
+msgid "Comma-separated integers"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1427
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1431
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1566
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1435
+msgid "Date (without time)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1562
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD "
+"HH:MM[:ss[.uuuuuu]][TZ] format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1570
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1575
+msgid "Date (with time)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1702
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1704
+msgid "Decimal number"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1864
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] "
+"[[HH:]MM:]ss[.uuuuuu] format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1868
+msgid "Duration"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1920
+msgid "Email address"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1945
+msgid "File path"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2023
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2025
+msgid "Floating point number"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2065
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2067
+msgid "Integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2163
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2180
+msgid "Small integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2188
+msgid "IPv4 address"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2219
+msgid "IP address"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2310
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2311
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2313
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2364
+msgid "Positive big integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2379
+msgid "Positive integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2394
+msgid "Positive small integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2410
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2446
+msgid "Text"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2526
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2530
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2642
+msgid "URL"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2666
+msgid "Raw binary data"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2731
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2733
+msgid "Universally unique identifier"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:244
+msgid "File"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:420
+msgid "Image"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:24
+msgid "A JSON object"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:26
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:978
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r is not a valid choice."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:981
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1275
+msgid "One-to-one relationship"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1332
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1334
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1382
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: .\venv\Lib\site-packages\django\forms\boundfield.py:185
+msgid ":?.!"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:95
+msgid "This field is required."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:315
+msgid "Enter a whole number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:486
+#: .\venv\Lib\site-packages\django\forms\fields.py:1267
+msgid "Enter a valid date."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:509
+#: .\venv\Lib\site-packages\django\forms\fields.py:1268
+msgid "Enter a valid time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:536
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:570
+msgid "Enter a valid duration."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:571
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:640
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:641
+msgid "No file was submitted."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:642
+msgid "The submitted file is empty."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:644
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:649
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:717
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:889
+#: .\venv\Lib\site-packages\django\forms\fields.py:975
+#: .\venv\Lib\site-packages\django\forms\models.py:1592
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:977
+#: .\venv\Lib\site-packages\django\forms\fields.py:1096
+#: .\venv\Lib\site-packages\django\forms\models.py:1590
+msgid "Enter a list of values."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1097
+msgid "Enter a complete value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1339
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1369
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: .\venv\Lib\site-packages\django\forms\forms.py:97
+msgid ":"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\forms.py:239
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:61
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:65
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:70
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:484
+#: .\venv\Lib\site-packages\django\forms\formsets.py:491
+msgid "Order"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:901
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:906
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:913
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:922
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1359
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1450
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1594
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\utils.py:229
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:527
+msgid "Clear"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:528
+msgid "Currently"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:529
+msgid "Change"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:866
+msgid "Unknown"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:867
+msgid "Yes"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:868
+msgid "No"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:873
+msgid "yes,no,maybe"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:903
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:920
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:922
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:924
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:926
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:928
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:930
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:74
+msgid "p.m."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:75
+msgid "a.m."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:80
+msgid "PM"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:81
+msgid "AM"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:153
+msgid "midnight"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:155
+msgid "noon"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:7
+msgid "Monday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:8
+msgid "Tuesday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:9
+msgid "Wednesday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:10
+msgid "Thursday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:11
+msgid "Friday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:12
+msgid "Saturday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:13
+msgid "Sunday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:16
+msgid "Mon"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:17
+msgid "Tue"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:18
+msgid "Wed"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:19
+msgid "Thu"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:20
+msgid "Fri"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:21
+msgid "Sat"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:22
+msgid "Sun"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:25
+msgid "January"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:26
+msgid "February"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:27
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:28
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:29
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:30
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:31
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:32
+msgid "August"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:33
+msgid "September"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:34
+msgid "October"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:35
+msgid "November"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:36
+msgid "December"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:39
+msgid "jan"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:40
+msgid "feb"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:41
+msgid "mar"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:42
+msgid "apr"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:43
+msgid "may"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:44
+msgid "jun"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:45
+msgid "jul"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:46
+msgid "aug"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:47
+msgid "sep"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:48
+msgid "oct"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:49
+msgid "nov"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:50
+msgid "dec"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\ipv6.py:20
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\text.py:76
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\text.py:287
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: .\venv\Lib\site-packages\django\utils\text.py:306
+#: .\venv\Lib\site-packages\django\utils\timesince.py:135
+msgid ", "
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:8
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:9
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:10
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:11
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:12
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:13
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:29
+msgid "Forbidden"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:30
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:34
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:40
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:45
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:54
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:60
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:66
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:44
+msgid "No year specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:64
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:115
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:214
+msgid "Date out of range"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:94
+msgid "No month specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:147
+msgid "No day specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:194
+msgid "No week specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:353
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:384
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:680
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because "
+"%(class_name)s.allow_future is False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:720
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:173
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:49
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:51
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:68
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:8
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:11
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:7
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:204
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:208
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:217
+msgid "Django Documentation"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:218
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:226
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:227
+msgid "Get started with Django"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:235
+msgid "Django Community"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:236
+msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: .\venv\Lib\site-packages\modeltranslation\widgets.py:32
+msgid "None"
+msgstr ""
+
+#~ msgid "Deactivate"
+#~ msgstr "Dezaktywuj"

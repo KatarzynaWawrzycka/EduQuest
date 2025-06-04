@@ -1,13 +1,19 @@
 {% extends "eduquest_app/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Edit reward" %} | EduQuest{% endblock %}
 
 {% block content %}
-  <h2>Edit Reward</h2>
+<div class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+  <div class="w-100" style="max-width: 500px;">
+    <h2 class="text-center mb-4">{% trans "Edit reward" %}</h2>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
 
-    <button type="submit">Save Changes</button>
-    <a href="{% url 'manage-child-profile' child_id=object.user.id%}" class="btn btn-secondary">Cancel</a>
-  </form>
+      <button type="submit" class="btn btn-primary w-100 mb-2">{% trans "Save" %}</button>
+      <a href="{% url 'manage-child-profile' child_id=object.user.id %}" class="btn btn-outline-secondary w-100">{% trans "Canel" %}</a>
+    </form>
+  </div>
+</div>
 {% endblock %}

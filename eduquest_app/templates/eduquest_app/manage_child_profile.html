@@ -1,110 +1,264 @@
 {% extends "eduquest_app/base.html" %}
+{% load i18n %}
+{% block title %} {% trans "Child profile" %} | EduQuest{% endblock %}
 
 {% block content %}
-    <h2>Manage Child's Profile</h2>
+<div class="container">
+  <a href="{% url 'profile' %}">
+    <button class="btn btn-outline-secondary" id="manage-back">{% trans "Back" %}</button>
+  </a>
 
-    <p>
-        <strong>Username:</strong> {{ child.username }}
+  <h2 class="manage-title">{% trans "Manage Child's Profile" %}</h2>
+
+  <div class="row mb-4 d-flex align-items-start">
+    <div class="col-md-5">
+      <p>
+        <strong>{% trans "Username" %}:</strong> {{ child.username }}
         <a href="{% url 'child-username-update' child_id=child.id %}">
-            <button type="button" style="margin-left: 10px;">Update</button>
+          <button type="button" class="btn btn-sm btn-outline-primary ms-2">{% trans "Update" %}</button>
         </a>
-    </p>
+      </p>
 
-    <p><strong>Role:</strong> {{ child.role }} </p>
+      <p><strong>{% trans "Role" %}:</strong> {{ child.role }}</p>
 
-    <p>
-        <strong>Password:</strong> ********
+      <p>
+        <strong>{% trans "Password" %}:</strong> ********
         <a href="{% url 'child-password-update' child_id=child.id %}">
-            <button type="button" style="margin-left: 10px;">Update</button>
+          <button type="button" class="btn btn-sm btn-outline-primary ms-2">{% trans "Update" %}</button>
         </a>
-    </p>
+      </p>
 
-    <a href="{% url 'delete-child-profile-confirmation' child.id %}">
-        <button type="button" style="background-color: red; color: white;">Delete profile</button>
-    </a>
+      <a href="{% url 'delete-child-profile-confirmation' child.id %}">
+        <button type="button" class="btn btn-sm btn-danger">{% trans "Delete profile" %}</button>
+      </a>
+    </div>
 
-    <h3>Preferences</h3>
-    {% if child.grade %}
-        <p><strong>Grade:</strong> {{ child.grade }}</p>
-    {% else %}
-        <p>Grade not set.</p>
-    {% endif %}
+    <div class="col-md-1 d-flex justify-content-center">
+      <div style="width: 1px; background-color: #ccc; height: 100%; min-height: 150px;"></div>
+    </div>
 
-    {% if preferences %}
+    <div class="col-md-6">
+      <h3>{% trans "Preferences" %}</h3>
+      {% if child.grade %}
+        <p><strong>{% trans "Grade" %}:</strong> {{ child.grade }}</p>
+      {% else %}
+        <p>{% trans "Grade not set." %}</p>
+      {% endif %}
+
+      {% if preferences %}
         <ul>
-            {% for preference in preferences %}
-                <li><strong>{{ preference.subject.name }}</strong> — Difficulty: {{ preference.get_difficulty_display }}</li>
-            {% endfor %}
+          {% for preference in preferences %}
+            <li><strong>{{ preference.subject.get_name_display }}</strong> — {{ preference.get_difficulty_display }}</li>
+          {% endfor %}
         </ul>
         <a href="{% url 'preferences-update' child.id %}">
-            <button type="button">Change preferences</button>
+          <button type="button" class="btn btn-secondary">{% trans "Change preferences" %}</button>
         </a>
-    {% else %}
-        <p>No preferences set or all marked as "Not applicable".</p>
-    {% endif %}
+      {% else %}
+        <p>{% trans "No preferences set or all marked as Not applicable." %}</p>
+      {% endif %}
+    </div>
+  </div>
 
-    <h3>Reward</h3>
+  <hr class="my-4">
+  <div class="mb-5">
+    <h3>Nagroda</h3>
     {% if reward %}
-        {% widthratio earned_points reward.points_required 100 as percent %}
-        <div class="mb-4 max-w-md">
-            <p><strong>Reward:</strong> {{ reward.name }}</p>
-            <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar"
-                    style="width: {{ percent }}%; min-width: 50px;"
-                    aria-valuenow="{{ earned_points }}"
-                    aria-valuemin="0"
-                    aria-valuemax="{{ reward.points_required }}">
-                    {{ earned_points }} / {{ reward.points_required }} pkt
-                </div>
+      {% widthratio earned_points reward.points_required 100 as percent %}
+      <div class="mb-4">
+        <p><strong>{% trans "Reward" %}:</strong> {{ reward.name }}</p>
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+          <div class="flex-grow-1 me-3">
+            <div class="progress border border-secondary-subtle rounded-3" style="height: 2rem; background-color: #f8f9fa; box-shadow: 0 2px 10px #2E6670BF">
+              <div
+                class="progress-bar {% if reward_achieved %}bg-gold{% else %}bg-success{% endif %}"
+                role="progressbar"
+                style="width: {{ percent }}%; min-width: 50px;"
+                aria-valuenow="{{ earned_points }}"
+                aria-valuemin="0"
+                aria-valuemax="{{ reward.points_required }}">
+                {{ earned_points }} / {{ reward.points_required }} {% trans "pts" %}
+              </div>
             </div>
 
             {% if reward_achieved %}
-                <div class="alert alert-info mt-2">
-                    🎉 Reward achieved! Click below to mark it as claimed.
-                </div>
-                <a href="{% url 'reward-claim' child.id reward.id %}" class="btn btn-primary mt-2">
-                    Claim & Deactivate
-                </a>
+              <div class="alert alert-success mt-3 mb-3" role="alert">
+                {% trans "Congratulations!" %} {{ child.username }} {% trans "has earned the reward!" %}
+              </div>
+
+              <form action="{% url 'reward-claim' child.id reward.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Dezaktywuj</button>
+              </form>
             {% endif %}
+          </div>
+
+          {% if not reward_achieved %}
+            <div class="mt-3 d-flex gap-2">
+              <a href="{% url 'reward-edit' child.id reward.id %}" class="btn btn-primary">{% trans "Edit" %}</a>
+              <a href="{% url 'reward-delete' child.id reward.id %}" class="btn btn-danger">{% trans "Delete" %}</a>
+            </div>
+          {% endif %}
+
         </div>
+      </div>
     {% else %}
-        <p>No active reward.</p>
-        <a href="{% url 'reward-create' child.id %}">Add a new one</a>
+      <p>{% trans "No active reward." %}</p>
+      <a href="{% url 'reward-create' child.id %}" class="btn btn-primary">{% trans "Add reward" %}</a>
     {% endif %}
+  </div>
 
-    <h3>Tasks</h3>
-        {% if tasks %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Subject</th>
-                        <th>Description</th>
-                        <th>Due Date</th>
-                        <th>Time</th>
-                        <th>Status</th>
-                        <th>Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for task in tasks %}
-                        <tr>
-                            <td>{{ task.title }}</td>
-                            <td>{{ task.subject }}</td>
-                            <td>{{ task.description|default_if_none:"No description"|truncatechars:5 }}</td>
-                            <td>{{ task.due_date }}</td>
-                            <td>{{ task.time }} min</td>
-                            <td>{{ task.status }}</td>
-                            <td>{{ task.points }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>This child has no tasks.</p>
-        {% endif %}
+    <hr class="my-4">
 
-    <a href="{% url 'profile' %}">
-        <button type="button">Back</button>
-    </a>
+    <h3>Lista zadań</h3>
+
+    <div class="mb-3">
+      <button id="tab-btn-todo" class="btn btn-primary me-2 active">{% trans "To do" %}</button>
+      <button id="tab-btn-finished" class="btn btn-outline-success me-2">{% trans "Finished" %}</button>
+      <button id="tab-btn-overdue" class="btn btn-outline-danger">{% trans "Overdue" %}</button>
+    </div>
+
+    <div id="tab-content-todo">
+      {% if started_tasks %}
+        <h4>{% trans "In Progress" %}</h4>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>{% trans "Title" %}</th><th>{% trans "Subject" %}</th><th>{% trans "Description" %}</th><th>{% trans "Due date" %}</th><th>{% trans "Time" %}</th><th>{% trans "Points" %}</th><th> </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in started_tasks %}
+              <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.subject }}</td>
+                <td>{{ task.description|default_if_none:"No description"|truncatechars:15 }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>{{ task.time }} min</td>
+                <td>{{ task.points }}</td>
+                <td>
+                  <a href="{% url 'task-detail' task.id %}" ><button class="btn btn-outline-secondary">{% trans "Details" %}</button></a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+
+      {% if todo_tasks %}
+        <h4>{% trans "To do" %}</h4>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>{% trans "Title" %}</th><th>{% trans "Subject" %}</th><th>{% trans "Description" %}</th><th>{% trans "Due date" %}</th><th>{% trans "Time" %}</th><th>{% trans "Points" %}</th><th> </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in todo_tasks %}
+              <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.subject }}</td>
+                <td>{{ task.description|default_if_none:"No description"|truncatechars:15 }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>{{ task.time }} min</td>
+                <td>{{ task.points }}</td>
+                <td>
+                  <a href="{% url 'task-detail' task.id %}" ><button class="btn btn-outline-secondary">{% trans "Details" %}</button></a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+
+      {% if not started_tasks and not todo_tasks %}
+        <p>{% trans "No tasks to do or in progress." %}</p>
+      {% endif %}
+    </div>
+
+    <div id="tab-content-finished" style="display:none;">
+      {% if done_tasks %}
+        <h4>{% trans "Finished" %}</h4>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>{% trans "Title" %}</th><th>{% trans "Subject" %}</th><th>{% trans "Description" %}</th><th>{% trans "Due date" %}</th><th>{% trans "Time" %}</th><th>{% trans "Points" %}</th><th> </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in done_tasks %}
+              <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.subject }}</td>
+                <td>{{ task.description|default_if_none:"No description"|truncatechars:15 }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>{{ task.time }} min</td>
+                <td>{{ task.points }}</td>
+                <td>
+                  <a href="{% url 'task-detail' task.id %}" ><button class="btn btn-outline-secondary">{% trans "Details" %}</button></a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+      {% if not done_tasks %}
+        <p>{% trans "No finished tasks." %}</p>
+      {% endif %}
+    </div>
+
+    <div id="tab-content-overdue" style="display:none;">
+      {% if overdue_tasks %}
+        <h4>{% trans "Overdue" %}</h4>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>{% trans "Title" %}</th><th>{% trans "Subject" %}</th><th>{% trans "Description" %}</th><th>{% trans "Due date" %}</th><th>{% trans "Time" %}</th><th>{% trans "Points" %}</th><th> </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in overdue_tasks %}
+              <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.subject }}</td>
+                <td>{{ task.description|default_if_none:"No description"|truncatechars:15 }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>{{ task.time }} min</td>
+                <td>{{ task.points }}</td>
+                <td>
+                  <a href="{% url 'task-detail' task.id %}" ><button class="btn btn-outline-secondary">{% trans "Details" %}</button></a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>{% trans "No overdue tasks." %}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  function switchTab(tab) {
+    document.getElementById('tab-content-todo').style.display = (tab === 'todo') ? 'block' : 'none';
+    document.getElementById('tab-content-finished').style.display = (tab === 'finished') ? 'block' : 'none';
+    document.getElementById('tab-content-overdue').style.display = (tab === 'overdue') ? 'block' : 'none';
+
+    document.getElementById('tab-btn-todo').classList.toggle('active', tab === 'todo');
+    document.getElementById('tab-btn-finished').classList.toggle('active', tab === 'finished');
+    document.getElementById('tab-btn-overdue').classList.toggle('active', tab === 'overdue');
+  }
+
+  document.getElementById('tab-btn-todo').addEventListener('click', () => switchTab('todo'));
+  document.getElementById('tab-btn-finished').addEventListener('click', () => switchTab('finished'));
+  document.getElementById('tab-btn-overdue').addEventListener('click', () => switchTab('overdue'));
+
+  switchTab('todo');
+});
+
+</script>
 {% endblock %}

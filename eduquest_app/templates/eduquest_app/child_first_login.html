@@ -1,7 +1,14 @@
 {% extends 'eduquest_app/base.html' %}
+{% load i18n %}
+{% block title %} {% trans "First login" %} | EduQuest{% endblock %}
 
 {% block content %}
+<div class="one-column">
   <h2>{{ message }}</h2>
-  <p>Log ou tand ask your parent to fill out your preference form (on their account).</p>
-  <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
-{% endblock %}
+  <p>{% trans "Log out and ask your parent to fill out your preferences form (on their account)." %}</p>
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button class="btn btn-warning">{% trans "Logout" %}</button>
+  </form>
+</div>
+  {% endblock %}

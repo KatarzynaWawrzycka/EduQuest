@@ -1,5 +1,27 @@
 {% extends "eduquest_app/base.html" %}
+{% load static %}
+{% load i18n %}
 
 {% block content %}
-  <h2>Welcome to EduQuest!</h2>
+  <div class="intro-text">
+    <h1 class="title">EduQuest</h1>
+    <p id="slogan">{% trans "Turn homework into an adventure" %}</p>
+
+    <h2>{% trans "How to use the app?" %}</h2>
+
+    <h3>{% trans "Parents – set the rules of the game" %}</h3>
+      <p>
+        {% trans "Create an account for you and your kid. Fill out a short form together – for each subject, choose how difficult it is for your kid. Points earned from tasks will depend on this. You can also set a reward your kid will receive after collecting enough points." %}
+      </p>
+
+    <h3>{% trans "Kids – take on the challenge" %}</h3>
+      <p>
+        {% trans "Log in with the account your parent made. Create your own homework task list and set time goals. Each time you finish a task, you earn points – the harder the task, the more you get. Collect points and claim your reward! Don’t worry, you won’t be alone – Eddie the raccoon will be right there studying with you." %}
+      </p>
+
+      <img src="{% static 'images/index.png' %}" alt="{% trans 'Eddie the raccoon sitting at the desk, looking and waving at you.' %}" style="display: block; margin: 1rem auto; max-width: 720px;">
+
+      <p id="info-1">Autorem niniejszego seriwsu jest Katarzyna Wawrzycka.</p>
+      <p id="info-2">Serwis ten stanowi integralną część pracy licencjackiej (kierunek: elektroniczne przetwarzanie informacji), przygotowanej pod kierunkiem dr hab. Janusza Jurka, prof. UJ na Wydziale Zarządzania i Komunikacji Społecznej Uniwersytetu Jagiellońskiego.</p>
+  </div>
 {% endblock %}

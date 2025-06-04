@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import index, LoginView, LogoutView, SignUpView, ProfileView, ChildUserCreationView, \
-    ChildFirstLoginView, SetPreferencesView, manage_parent_profile, manage_child_profile, \
+    ChildFirstLoginView, SetPreferencesView, manage_child_profile, \
     EmailUpdateView, DeleteChildProfileView, DeleteParentProfileView, \
     ParentUsernameUpdateView, ChildUsernameUpdateView, ParentPasswordUpdateView, \
     ChildPasswordUpdateView, PreferencesUpdateView, TasksListView, TaskCreateView, TaskEditView, TaskDeleteView, \
@@ -14,9 +14,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('child-first-login/', ChildFirstLoginView.as_view(), name='child-first-login'),
     path('set-preference/<int:child_id>/', SetPreferencesView.as_view(), name='set-preference'),
-    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout/', LogoutView.as_view(next_page='index'), name='logout'),
     path('profile/', ProfileView.as_view(), name='profile'),
-    path('manage-parent-profile/', manage_parent_profile, name='manage-parent-profile'),
     path('manage-child-profile/<int:child_id>/', manage_child_profile, name='manage-child-profile'),
     path('email-update/', EmailUpdateView.as_view(), name='email-update'),
     path('username-update/', ParentUsernameUpdateView.as_view(), name='parent-username-update'),

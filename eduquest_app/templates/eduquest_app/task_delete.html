@@ -1,12 +1,16 @@
 {% extends "eduquest_app/base.html" %}
+{% load i18n %}
+{% block title %} {% trans "Delete task" %} | EduQuest{% endblock %}
 
 {% block content %}
-  <h2>Confirm Deletion</h2>
-  <p>Are you sure you want to delete the task: <strong>{{ object.title }}</strong>?</p>
+<div class="container my-5">
+  <h2 class="text-center mb-4">{% trans "Confirm deletion" %}</h2>
+  <p class="text-center">{% trans "Are you sure you want to delete the task" %}: <strong>{{ object.title }}</strong>?</p>
 
-  <form method="post">
+  <form method="post" class="w-50 mx-auto text-center">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Yes, delete</button>
-    <a href="{% url 'tasks' %}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-danger w-100 mb-2">{% trans "Yes, delete" %}</button>
+    <a href="{% url 'tasks' %}" class="btn btn-outline-secondary w-100">{% trans "Cancel" %}</a>
   </form>
+</div>
 {% endblock %}

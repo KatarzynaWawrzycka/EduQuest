@@ -1,17 +1,31 @@
 {% extends "eduquest_app/base.html" %}
+{% load i18n %}
+{% block title %} {% trans "Confirm profile deletion" %} | EduQuest{% endblock %}
 
 {% block content %}
-    <h2>Confirm Deletion</h2>
-    <p>This will delete your account and all associated child accounts permanently.</p>
+  <div class="d-flex justify-content-center align-items-center" style="min-height: 85vh;">
+    <div style="min-width: 320px; max-width: 480px; width: 100%; padding: 20px;" class="text-center">
 
-    <form method="POST">
+      <h2 class="mb-3">{% trans "Confirm deletion" %}</h2>
+      <p class="mb-4">
+        {% trans "This will delete your account and all associated child accounts permanently." %}
+      </p>
+
+      <form method="POST" class="mb-3">
         {% csrf_token %}
-        <label for="password">Enter your password to confirm:</label>
-        <input type="password" name="password" required>
-        <br><br>
-        <button type="submit" style="background-color: red; color: white;">Yes, delete my account</button>
-        <a href="{% url 'manage-parent-profile' %}">
-            <button type="button">Cancel</button>
-        </a>
-    </form>
+
+        <div class="mb-3 text-start">
+          <label for="password" class="form-label">{% trans "Enter your password to confirm:" %}</label>
+          <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-danger w-100">{% trans "Yes, delete my account" %}</button>
+      </form>
+
+      <a href="{% url 'profile' %}" class="w-100">
+        <button type="button" class="btn btn-outline-secondary w-100"> {% trans "Cancel" %}</button>
+      </a>
+
+    </div>
+  </div>
 {% endblock %}

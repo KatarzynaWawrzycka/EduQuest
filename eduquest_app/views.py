@@ -1,5 +1,5 @@
-from datetime import timedelta
-
+from datetime import timedelta, date
+from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum, Q, F
@@ -14,46 +14,33 @@ from django.views.generic import CreateView, TemplateView, DetailView
 from django.contrib import messages
 from django.views.generic.edit import UpdateView, DeleteView, FormView
 from .forms import CustomUserCreationForm, ChildUserCreationForm, PreferencesForm, EmailUpdateForm, \
-    ConfirmPasswordForm, UsernameUpdateForm, PasswordUpdateForm, TaskCreateForm, RewardCreateForm
+    ConfirmPasswordForm, UsernameUpdateForm, PasswordUpdateForm, TaskCreateForm, RewardCreateForm, \
+    CustomUserAuthenticationForm
 from django.contrib.auth import views as auth_views, authenticate, logout
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import update_session_auth_hash
-from .models import CustomUser, Preference, Task, Reward, Points
+from .models import CustomUser, Preference, Task, Reward, Points, Subject
 from django.http import Http404, JsonResponse, HttpResponse, request
 from django.core.paginator import Paginator
 
 
 def index(request):
-    """
-    Index view
-    Rendering template
-    """
+
     return render(request, 'eduquest_app/index.html')
 
 class SignUpView(CreateView):
-    """
-    Sign up view
-    for PARENT
-    Rendering template and redirecting to LOG IN
-    """
+
     form_class = CustomUserCreationForm
     template_name = 'eduquest_app/signup.html'
     success_url = reverse_lazy('login')
 
     def form_valid(self, form):
-        messages.success(self.request, 'User registered successfully!')
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, 'Error during form validation')
-        return super().form_invalid(form)
+        response = super().form_valid(form)
+        self.request.session['registered'] = True
+        return response
 
 class ChildUserCreationView(LoginRequiredMixin, CreateView):
-    """
-    Child user creation view (sign up view)
-    for CHILD
-    Rendering template and redirecting to LOG IN
-    """
+
     model = CustomUser
     form_class = ChildUserCreationForm
     template_name = 'eduquest_app/add_child_user.html'
@@ -61,19 +48,16 @@ class ChildUserCreationView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         child = form.save(commit=False)
-        child.role = CustomUser.Role.CHILD # setting role CHILD
-        child.parent = self.request.user # pairing with PARENT (requesting the form)
+        child.role = CustomUser.Role.CHILD
+        child.parent = self.request.user
         child.save()
-        messages.success(self.request, f'Child {child.username} registered successfully!')
+        messages.success(self.request, _('Child %(username) registered successfully!') % {'username': child.username})
         return super().form_valid(form)
 
 class LoginView(auth_views.LoginView):
-    """
-    Login view
-    for all users
-    Rendering template and redirecting to PROFILE (parent) or TASKS (child)
-    """
+
     template_name = 'eduquest_app/login.html'
+    authentication_form = CustomUserAuthenticationForm
 
     def get_success_url(self):
         user = self.request.user
@@ -85,20 +69,23 @@ class LoginView(auth_views.LoginView):
             return reverse('tasks')
         return reverse('index')
 
+    def get(self, request, *args, **kwargs):
+        if request.session.get('registered'):
+            messages.success(request, _('User registered successfully!'))
+            del request.session['registered']
+        return super().get(request, *args, **kwargs)
+
 class ChildFirstLoginView(LoginRequiredMixin, TemplateView):
     template_name = 'eduquest_app/child_first_login.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['message'] = 'Your preferences aren\'t set yet. Your parent must fill out a form first.'
+        context['message'] = _('Your preferences aren\'t set yet. Your parent must fill out a form first.')
         return context
 
 class LogoutView(auth_views.LogoutView):
-    """
-    Logout view
-    Redirecting back to log in ----------------------------------------CHANGE TO INDEX ONCE DONE
-    """
-    next_page = "login"
+
+    next_page = "index"
 
 class SetPreferencesView(LoginRequiredMixin, TemplateView):
     template_name = 'eduquest_app/set_preference.html'
@@ -123,36 +110,42 @@ class SetPreferencesView(LoginRequiredMixin, TemplateView):
 
             for field_name, value in form.cleaned_data.items():
                 if field_name.startswith('subject_'):
-                    subject_id = int(field_name.split('_')[1])
-                    if value != 0:
-                        Preference.objects.create(
-                            user=child,
-                            subject_id=subject_id,
-                            difficulty=value,
-                        )
+                    subject_key = field_name.split('subject_')[1]
 
-            messages.success(request, 'Your preferences were successfully updated!')
+                    if value and value != '0':
+                        try:
+                            difficulty = int(value)
+                        except ValueError:
+                            continue
+
+                        subject = Subject.objects.filter(name=subject_key).first()
+                        if subject:
+                            Preference.objects.create(
+                                user=child,
+                                subject=subject,
+                                difficulty=difficulty,
+                            )
+
+                        print(f"Created Preference for {child} - {subject} - difficulty {difficulty}")
+
+            messages.success(request, _('Your preferences were successfully updated!'))
             return redirect('profile')
 
         return render(request, self.template_name, {'form': form, 'child': child})
 
 class ProfileView(LoginRequiredMixin, TemplateView):
-    """
-    Profile view
-    for PARENT
-    Displaying profile information + administration panel - managing parent's account + their children's accounts
-    """
+
     template_name = 'eduquest_app/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
+        context['user'] = user
         context['username'] = user.username
         context['role'] = user.get_role_display()
 
-        # displaying children's accounts linked to the parent
         if user.role == 'parent':
-            children = user.children.all() or []
+            children = user.children.all() if hasattr(user, 'children') else []
             children_data = []
             has_children_without_preferences = False
 
@@ -171,53 +164,77 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         return context
 
 @login_required
-def manage_parent_profile(request):
-    user = request.user
-    return render(request, 'eduquest_app/manage_parent_profile.html', {'user': user})
-
-@login_required
 def manage_child_profile(request, child_id):
     child = get_object_or_404(CustomUser, id=child_id, parent=request.user)
-    preference = Preference.objects.filter(user=child).exclude(difficulty=0).select_related('subject') #for subject list
-    tasks_raw = Task.objects.filter(user=child).order_by('due_date')
-    reward = Reward.objects.filter(user=child, is_active=True).first()
+    today = localdate()
+    todayP = date.today()
 
+    preferences = Preference.objects.filter(user=child).exclude(difficulty=0).select_related('subject')
+    preference_map = {pref.subject: pref.difficulty for pref in preferences}
+
+    reward = Reward.objects.filter(user=child, is_active=True).first()
     if reward:
-        earned_agg = Points.objects.filter(
+        earned_points = Points.objects.filter(
             user=child,
             awarded_at__gte=reward.created_at
-        ).aggregate(total=Sum('points'))
-        earned_points = earned_agg['total'] or 0
+        ).aggregate(total=Sum('points'))['total'] or 0
         reward_achieved = earned_points >= reward.points_required
     else:
         earned_points = 0
         reward_achieved = False
 
-    tasks = []
-    for task in tasks_raw:
-        try:
-            task_preference = Preference.objects.get(user=child, subject=task.subject) #for task list
-            points = task_preference.difficulty * 10
-        except Preference.DoesNotExist:
-            points = 0
+    Task.objects.filter(
+        user=child,
+        due_date__lt=today,
+    ).filter(
+        Q(finished_at__isnull=True) | Q(finished_at__gt=F('due_date'))
+    ).exclude(
+        status=Task.Status.OVERDUE.value
+    ).update(status=Task.Status.OVERDUE.value)
 
-        tasks.append({
-            'title': task.title,
-            'subject': task.subject.name,
-            'description': task.description,
-            'due_date': task.due_date,
-            'status': task.get_status_display(),
-            'time': task.time,
-            'points': points,
-        })
+    queryset = Task.objects.filter(user=child).select_related('subject')
+    started_tasks = queryset.filter(status=Task.Status.STARTED.value)
+    todo_tasks = queryset.filter(status=Task.Status.TO_DO.value).order_by('due_date')
+    done_tasks = queryset.filter(status=Task.Status.DONE.value).order_by('-finished_at')
+    overdue_tasks = queryset.filter(status=Task.Status.OVERDUE.value)
+
+    points_map = {
+        p.task_id: p.points for p in Points.objects.filter(task__in=done_tasks)
+    }
+
+    def serialize(tasks_qs):
+        result = []
+        for task in tasks_qs:
+            if task.status == Task.Status.DONE.value:
+                points = points_map.get(task.id, 0)
+            elif task.status == Task.Status.OVERDUE.value:
+                points = 0
+            else:
+                diff = preference_map.get(task.subject, 0)
+                points = diff * 10
+
+            result.append({
+                'id': task.id,
+                'title': task.title,
+                'subject': task.subject,
+                'description': task.description,
+                'due_date': task.due_date,
+                'status': task.get_status_display(),
+                'time': task.time,
+                'points': points,
+            })
+        return result
 
     context = {
         'child': child,
-        'preferences': preference,
+        'preferences': preferences,
         'reward': reward,
         'earned_points': earned_points,
         'reward_achieved': reward_achieved,
-        'tasks': tasks,
+        'started_tasks': serialize(started_tasks),
+        'todo_tasks': serialize(todo_tasks),
+        'done_tasks': serialize(done_tasks),
+        'overdue_tasks': serialize(overdue_tasks),
     }
 
     return render(request, 'eduquest_app/manage_child_profile.html', context)
@@ -232,7 +249,7 @@ class EmailUpdateView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
     def form_valid(self, form):
-        messages.success(self.request, 'Email updated successfully!')
+        messages.success(self.request, _('Email updated successfully!'))
         return super().form_valid(form)
 
 class ParentUsernameUpdateView(LoginRequiredMixin, UpdateView):
@@ -243,14 +260,14 @@ class ParentUsernameUpdateView(LoginRequiredMixin, UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.role != CustomUser.Role.PARENT:
-            raise Http404("Only parents can access this page.")
+            raise Http404(_("Only parents can access this page."))
         return super().dispatch(request, *args, **kwargs)
 
     def get_object(self):
         return self.request.user
 
     def form_valid(self, form):
-        messages.success(self.request, 'Username updated successfully!')
+        messages.success(self.request, _('Username updated successfully!'))
         return super().form_valid(form)
 
 class ChildUsernameUpdateView(LoginRequiredMixin, UpdateView):
@@ -265,7 +282,7 @@ class ChildUsernameUpdateView(LoginRequiredMixin, UpdateView):
         return reverse('manage-child-profile', kwargs={'child_id': self.object.id})
 
     def form_valid(self, form):
-        messages.success(self.request, 'Username updated successfully!')
+        messages.success(self.request, _('Username updated successfully!'))
         return super().form_valid(form)
 
 class ParentPasswordUpdateView(LoginRequiredMixin, FormView):
@@ -280,8 +297,12 @@ class ParentPasswordUpdateView(LoginRequiredMixin, FormView):
         user.set_password(new_password)
         user.save()
         update_session_auth_hash(self.request, user)
-        messages.success(self.request, 'Password updated successfully!')
+        messages.success(self.request, _('Password updated successfully!'))
         return redirect('profile')
+
+    def form_invalid(self, form):
+        messages.error(self.request, _("Passwords don't match."))
+        return super().form_invalid(form)
 
 class ChildPasswordUpdateView(LoginRequiredMixin, FormView):
     model = CustomUser
@@ -296,8 +317,12 @@ class ChildPasswordUpdateView(LoginRequiredMixin, FormView):
         new_password = form.cleaned_data['password1']
         self.child.set_password(new_password)
         self.child.save()
-        messages.success(self.request, 'Password updated successfully!')
+        messages.success(self.request, _('Password updated successfully!'))
         return redirect('manage-child-profile', child_id=self.child.id)
+
+    def form_invalid(self, form):
+        messages.error(self.request, _("Passwords don't match."))
+        return super().form_invalid(form)
 
 class DeleteParentProfileView(LoginRequiredMixin, FormView):
     template_name = 'eduquest_app/delete_parent_profile_confirmation.html'
@@ -311,10 +336,10 @@ class DeleteParentProfileView(LoginRequiredMixin, FormView):
         if authenticate(username=user.username, password=password):
             user.delete()
             logout(self.request)
-            messages.success(self.request,'Your account and all linked children\'s accounts were successfully deleted.')
+            messages.success(self.request,_('Your account and all linked children\'s accounts were successfully deleted.'))
             return redirect(self.get_success_url())
         else:
-            messages.error(self.request, 'Password incorrect.Try again.')
+            messages.error(self.request, _('Password incorrect.Try again.'))
             return self.form_invalid(form)
 
 class DeleteChildProfileView(LoginRequiredMixin, DeleteView):
@@ -333,7 +358,7 @@ class DeleteChildProfileView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
-        messages.success(self.request, 'Child profile deleted successfully!')
+        messages.success(self.request, _('Child profile deleted successfully!'))
         return redirect(self.get_success_url())
 
 class PreferencesUpdateView(LoginRequiredMixin, FormView):
@@ -350,7 +375,7 @@ class PreferencesUpdateView(LoginRequiredMixin, FormView):
         preferences = Preference.objects.filter(user=self.child)
 
         for p in preferences:
-            initial[f'subject_{p.subject_id}'] = p.difficulty
+            initial[f'subject_{p.subject.name}'] = p.difficulty
 
         form = self.form_class(initial=initial)
         return render(request, self.template_name, {'form': form, 'child': self.child})
@@ -367,14 +392,16 @@ class PreferencesUpdateView(LoginRequiredMixin, FormView):
 
             for field_name, value in form.cleaned_data.items():
                 if field_name.startswith('subject_') and value != 0:
-                    subject_id = int(field_name.split('_')[1])
-                    Preference.objects.create(
-                        user=self.child,
-                        subject_id=subject_id,
-                        difficulty=value,
-                    )
+                    subject_key = field_name.split('_', 1)[1]
+                    subject = Subject.objects.filter(name=subject_key).first()
+                    if subject:
+                        Preference.objects.create(
+                            user=self.child,
+                            subject=subject,
+                            difficulty=value,
+                        )
 
-            messages.success(request, 'Preferences updated successfully!')
+            messages.success(request, _('Preferences updated successfully!'))
             return redirect('manage-child-profile', child_id=self.child.id)
 
         return render(request, self.template_name, {'form': form, 'child': self.child})
@@ -428,15 +455,16 @@ class RewardDeleteView(LoginRequiredMixin, DeleteView):
         return reverse('manage-child-profile', kwargs={'child_id': child_id})
 
 class RewardClaimView(LoginRequiredMixin, View):
-    def get(self, request, child_id, reward_id):
+    def post(self, request, child_id, reward_id):
         child = get_object_or_404(CustomUser, id=child_id, parent=request.user)
         reward = get_object_or_404(Reward, id=reward_id, user=child, is_active=True)
 
         reward.is_active = False
         reward.save(update_fields=['is_active'])
 
-        messages.success(request, f'Reward "{reward.name}" marked as claimed')
+        messages.success(request, _('Reward "%(reward_name)s" marked as claimed') % {'reward_name': reward.name})
         return redirect('manage-child-profile', child_id=child.id)
+
 
 class TasksListView(LoginRequiredMixin, TemplateView):
     template_name = 'eduquest_app/task_list.html'
@@ -446,34 +474,43 @@ class TasksListView(LoginRequiredMixin, TemplateView):
         user = self.request.user
         today = localdate()
 
-        # 0. OVERDUE - aktualizacja statusów
+        todayP = date.today()
+        points_today = Points.objects.filter(
+            user=user,
+            awarded_at__gte=todayP,
+        ).aggregate(total=Sum('points'))['total'] or 0
+
         Task.objects.filter(
             user=user,
             due_date__lt=today,
         ).filter(
-            Q(finished_at__isnull=True) | Q(finished_at__gt=F('due_date'))
+            Q(finished_at__isnull=True) | Q(started_at__gt=F('due_date'))
         ).exclude(
             status=Task.Status.OVERDUE.value
         ).update(status=Task.Status.OVERDUE.value)
 
-        # Pobranie querysetów
         querySet = Task.objects.filter(user=user)
         started = querySet.filter(status=Task.Status.STARTED.value)
         todo = querySet.filter(status=Task.Status.TO_DO.value).order_by('due_date')
         done_querySet = querySet.filter(status=Task.Status.DONE.value).order_by('-finished_at')
         overdue = querySet.filter(status=Task.Status.OVERDUE.value)
 
-        # Paginator dla DONE
+        todo_paginator = Paginator(todo, 5)
+        toto_page_number = self.request.GET.get('todo_page')
+        todo_page = todo_paginator.get_page(toto_page_number)
+
         done_paginator = Paginator(done_querySet, 5)
         page_number = self.request.GET.get('done_page')
         done_page = done_paginator.get_page(page_number)
 
-        # Mapa punktów dla DONE
+        overdue_paginator = Paginator(overdue, 5)
+        overdue_page_number = self.request.GET.get('overdue_page')
+        overdue_page = overdue_paginator.get_page(overdue_page_number)
+
         points_map = {
             p.task_id: p.points for p in Points.objects.filter(task__in=done_querySet)
         }
 
-        # Preferencje użytkownika (dla TO DO, STARTED)
         prefs = {
             p.subject: p.difficulty for p in self.request.user.preference_set.all()
         }
@@ -484,7 +521,7 @@ class TasksListView(LoginRequiredMixin, TemplateView):
                 if task.status == Task.Status.DONE.value:
                     points = points_map.get(task.id, 0)
                 elif task.status == Task.Status.OVERDUE.value:
-                    points = 0  # albo '-' jeśli chcesz tekst
+                    points = 0
                 else:
                     diff = prefs.get(task.subject, 0)
                     points = diff * 10
@@ -492,13 +529,13 @@ class TasksListView(LoginRequiredMixin, TemplateView):
                 out.append({
                     'id': task.id,
                     'title': task.title,
-                    'subject': task.subject.name,
+                    'subject': task.subject.get_name_display(),
                     'description': task.description,
                     'due_date': task.due_date,
                     'status': task.get_status_display(),
                     'time': task.time,
                     'points': points,
-                    'button_label': 'Continue' if task.status == Task.Status.STARTED.value else 'Start',
+                    'button_label': _('Continue') if task.status == Task.Status.STARTED.value else _('Start'),
                     'disabled': (task.status not in [Task.Status.TO_DO.value, Task.Status.STARTED.value]),
                 })
             return out
@@ -507,15 +544,25 @@ class TasksListView(LoginRequiredMixin, TemplateView):
 
         context.update({
             'started_tasks': serialize(started),
-            'todo_tasks': serialize(todo),
+            'todo_tasks': serialize(todo_page.object_list),
+            'todo_page': todo_page,
+            'todo_paginator': todo_paginator,
+
             'done_tasks': serialize(done_page.object_list),
             'done_page': done_page,
             'done_paginator': done_paginator,
+
+            'overdue_tasks': serialize(overdue_page.object_list),
+            'overdue_page': overdue_page,
+            'overdue_paginator': overdue_paginator,
+
             'done_page_number': page_number,
             'show': show_param,
             'show_done': show_param == 'done',
-            'overdue_tasks': serialize(overdue),
+
+            'points_today': points_today,
         })
+
         return context
 
 
@@ -529,14 +576,26 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
         user = self.request.user
         task = self.object
 
-        try:
-            preference = Preference.objects.get(user=user, subject=task.subject)
-            points = preference.difficulty * 10
-        except Preference.DoesNotExist:
+        is_parent_of_task_user = (hasattr(user, 'children') and task.user in user.children.all())
+
+        if task.status == Task.Status.DONE.value:
+            points_obj = Points.objects.filter(task=task).first()
+            points = points_obj.points if points_obj else 0
+        elif task.status in [Task.Status.TO_DO.value, Task.Status.STARTED.value]:
+            try:
+                preference = Preference.objects.get(user=task.user, subject=task.subject)
+                points = preference.difficulty * 10
+            except Preference.DoesNotExist:
+                points = 0
+        else:
             points = 0
 
         context['points'] = points
+        context['is_parent_of_task_user'] = is_parent_of_task_user
+        context['child_id'] = task.user.id if is_parent_of_task_user else None
+
         return context
+
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
@@ -605,7 +664,7 @@ class FinishEarlyTaskView(LoginRequiredMixin, View):
         task = get_object_or_404(Task, pk=pk, user=request.user)
         parent = request.user.parent
         if not parent:
-            return JsonResponse({'error': 'Parent not found'}, status=403)
+            return JsonResponse({'error': _('Parent not found')}, status=403)
 
         try:
             data = json.loads(request.body)
@@ -615,7 +674,7 @@ class FinishEarlyTaskView(LoginRequiredMixin, View):
 
         user = authenticate(username=parent.username, password=password)
         if not user:
-            return JsonResponse({'error': 'Invalid password'}, status=403)
+            return JsonResponse({'error': _('Invalid password')}, status=403)
 
         task.status = Task.Status.DONE.value
         task.finished_at = now()
@@ -623,7 +682,15 @@ class FinishEarlyTaskView(LoginRequiredMixin, View):
 
         try:
             pref = Preference.objects.get(user=request.user, subject=task.subject)
-            points_awarded = pref.difficulty * 10
+            if (
+                    task.due_date
+                    and task.started_at
+                    and task.finished_at
+                    and task.started_at.date() <= task.due_date <= task.finished_at.date()
+            ):
+                points_awarded = max(0, (pref.difficulty * 10) - 5)
+            else:
+                points_awarded = pref.difficulty * 10
         except Preference.DoesNotExist:
             points_awarded = 0
 
@@ -644,7 +711,15 @@ class FinishTaskView(LoginRequiredMixin, View):
 
         try:
             pref = Preference.objects.get(user=request.user, subject=task.subject)
-            points_awarded = pref.difficulty * 10
+            if (
+                    task.due_date
+                    and task.started_at
+                    and task.finished_at
+                    and task.started_at.date() <= task.due_date <= task.finished_at.date()
+            ):
+                points_awarded = max(0, (pref.difficulty * 10) - 5)
+            else:
+                points_awarded = pref.difficulty * 10
         except Preference.DoesNotExist:
             points_awarded = 0
 

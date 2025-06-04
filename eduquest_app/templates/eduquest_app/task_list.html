@@ -1,269 +1,290 @@
 {% extends "eduquest_app/base.html" %}
+{% load i18n %}
+{% block title %} {% trans "Task list" %} | EduQuest{% endblock %}
 {% load static %}
 
+
 {% block content %}
-  <h2>Your Tasks</h2>
+<div style="margin: 30px;">
+<h2>{% trans "Your tasks" %}</h2>
+<a href="{% url 'task-create' %}" class="btn btn-primary mb-3">{% trans "Add task" %}</a>
 
-  <a href="{% url 'task-create' %}" class="btn btn-primary mb-3">Add New Task</a>
+<div class="mb-3">
+  <button id="tab-btn-todo" class="btn btn-primary me-2 active">{% trans "To do" %}</button>
+  <button id="tab-btn-finished" class="btn btn-outline-success me-2">{% trans "Finished" %}</button>
+  <button id="tab-btn-overdue" class="btn btn-outline-danger">{% trans "Overdue" %}</button>
+</div>
 
-  {# === STARTED TASKS === #}
+<div id="tab-content-todo">
+  <h4>{% trans "In progress" %}</h4>
   {% if started_tasks %}
-    <h4>In Progress</h4>
-    <table class="table">
+
+    <table class="table table-hover">
       <thead>
         <tr>
-          <th>Title</th><th>Subject</th><th>Description</th>
-          <th>Due</th><th>Time</th><th>Points</th><th>Action</th>
+          <th>{% trans "Title" %}</th><th>{% trans "Subject" %}</th><th>{% trans "Description" %}</th><th>{% trans "Due date" %}</th><th>{% trans "Time" %}</th><th>{% trans "Points" %}</th><th>{% trans "Actions" %}</th>
         </tr>
       </thead>
       <tbody>
-      {% for task in started_tasks %}
-        <tr>
-          <td>{{ task.title }}</td>
-          <td>{{ task.subject }}</td>
-          <td>{{ task.description|truncatechars:5 }}</td>
-          <td>{{ task.due_date }}</td>
-          <td>{{ task.time }} min</td>
-          <td>{{ task.points }}</td>
-          <td>
-            <button
-              class="start-btn btn btn-sm btn-success"
-              data-task-id="{{ task.id }}"
-              data-title="{{ task.title }}"
-              data-subject="{{ task.subject }}">
-              Continue
-            </button>
-            <a href="{% url 'task-detail' task.id %}" class="btn btn-sm btn-info">Details</a>
-          </td>
-        </tr>
-      {% endfor %}
+        {% for task in started_tasks %}
+          <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.subject }}</td>
+            <td>{{ task.description|truncatechars:10 }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.time }} min</td>
+            <td>{{ task.points }}</td>
+            <td>
+              <button
+                class="start-btn btn btn-success"
+                data-task-id="{{ task.id }}"
+                data-title="{{ task.title }}"
+                data-subject="{{ task.subject }}">
+                {% trans "Continue" %}
+              </button>
+              <a href="{% url 'task-detail' task.id %}" class="btn btn-outline-secondary">{% trans "Details" %}</a>
+            </td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
+  {% else %}
+    <p class="no-started-message">{% trans "No tasks in progress." %}</p>
   {% endif %}
 
-  {# === TO DO TASKS === #}
+   <h4>{% trans "To do" %}</h4>
   {% if todo_tasks %}
-    <h4>To Do</h4>
-    <table class="table">
+  <div class="table-container">
+    <table class="table table-hover">
       <thead>
         <tr>
-          <th>Title</th><th>Subject</th><th>Description</th>
-          <th>Due</th><th>Time</th><th>Points</th><th>Action</th>
+          <th>{% trans "Title" %}</th><th>{% trans "Subject" %}</th><th>{% trans "Description" %}</th><th>{% trans "Due date" %}</th><th>{% trans "Time" %}</th><th>{% trans "Points" %}</th><th>{% trans "Actions" %}</th>
         </tr>
       </thead>
       <tbody>
-      {% for task in todo_tasks %}
-        <tr>
-          <td>{{ task.title }}</td>
-          <td>{{ task.subject }}</td>
-          <td>{{ task.description|truncatechars:5 }}</td>
-          <td>{{ task.due_date }}</td>
-          <td>{{ task.time }} min</td>
-          <td>{{ task.points }}</td>
-          <td>
-              <a href="{% url 'task-detail' task.id %}" class="btn btn-sm btn-info">Details</a>
-            <a href="{% url 'task-edit' task.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
-            <a href="{% url 'task-delete' task.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
-            <button
-              class="start-btn btn btn-sm btn-success"
-              data-task-id="{{ task.id }}"
-              data-title="{{ task.title }}"
-              data-subject="{{ task.subject }}">
-              Start
-            </button>
-          </td>
-        </tr>
-      {% endfor %}
+        {% for task in todo_tasks %}
+          <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.subject }}</td>
+            <td>{{ task.description|truncatechars:10 }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.time }} min</td>
+            <td>{{ task.points }}</td>
+              <td>
+                <div class="d-flex justify-content-evenly align-items-center" style="min-height: 100px;">
+                  <div class="d-flex flex-column gap-1">
+                    <a href="{% url 'task-detail' task.id %}" class="btn btn-outline-secondary btn-sm">{% trans "Details" %}</a>
+                    <a href="{% url 'task-edit' task.id %}" class="btn btn-outline-primary btn-sm">{% trans "Edit" %}</a>
+                    <a href="{% url 'task-delete' task.id %}" class="btn btn-outline-danger btn-sm">{% trans "Delete" %}</a>
+                  </div>
+                  <div class="text-center ms-2">
+                    <button
+                      class="start-btn btn btn-success btn-sm"
+                      data-task-id="{{ task.id }}"
+                      data-title="{{ task.title }}"
+                      data-subject="{{ task.subject }}">
+                      {% trans "Start" %}
+                    </button>
+                  </div>
+                </div>
+              </td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
+  </div>
+  {% else %}
+    <p class="no-todo-message">{% trans "No tasks to do." %}</p>
   {% endif %}
 
-  {# Toggle button teraz tylko w JS doda param #}
-<div class="mb-4 mt-4">
-  <button id="toggle-done" class="btn btn-outline-success me-2">
-    Finished Tasks
-  </button>
-  <button id="toggle-overdue" class="btn btn-outline-warning">
-    Overdue Tasks
-  </button>
-</div>
-
-  {# FINISHED #}
-<div id="done-section" {% if show_done %}style="display:block;"{% else %}style="display:none;"{% endif %}>
-  <h4>Finished</h4>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Title</th><th>Subject</th><th>Description</th>
-        <th>Due</th><th>Time</th><th>Points</th><th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for task in done_tasks %}
-      <tr>
-        <td>{{ task.title }}</td>
-        <td>{{ task.subject }}</td>
-        <td>{{ task.description|truncatechars:5 }}</td>
-        <td>{{ task.due_date }}</td>
-        <td>{{ task.time }} min</td>
-       <td>
-        {% if task.points == 0 %}
-          -
-        {% else %}
-          {{ task.points }}
-        {% endif %}
-      </td>
-        <td>
-          <a href="{% url 'task-detail' task.id %}" class="btn btn-sm btn-info">Details</a>
-        </td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-
-  {# Paginacja #}
-  {% if done_paginator.num_pages > 1 %}
-    <nav>
-      <ul class="pagination">
-        {% if done_page.has_previous %}
-          <li class="page-item">
-            <a class="page-link"
-               href="?done_page={{ done_page.previous_page_number }}&show=done">
-              Previous
-            </a>
-          </li>
-        {% endif %}
-        <li class="page-item disabled">
-          <span class="page-link">
-            Page {{ done_page.number }} of {{ done_paginator.num_pages }}
-          </span>
+  {% if todo_page.has_other_pages %}
+  <nav>
+    <ul class="pagination">
+      {% if todo_page.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?todo_page={{ todo_page.previous_page_number }}#tab-content-todo">{% trans "Previous" %}</a>
         </li>
-        {% if done_page.has_next %}
-          <li class="page-item">
-            <a class="page-link"
-               href="?done_page={{ done_page.next_page_number }}&show=done">
-              Next
-            </a>
-          </li>
-        {% endif %}
-      </ul>
-    </nav>
-  {% endif %}
+      {% endif %}
+      {% for num in todo_page.paginator.page_range %}
+        <li class="page-item {% if todo_page.number == num %}active{% endif %}">
+          <a class="page-link" href="?todo_page={{ num }}#tab-content-todo">{{ num }}</a>
+        </li>
+      {% endfor %}
+      {% if todo_page.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?todo_page={{ todo_page.next_page_number }}#tab-content-todo">{% trans "Next" %}</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
 </div>
 
-  {# === OVERDUE TASKS (hidden by default) === #}
-  <div id="overdue-section" {% if show == 'overdue' %}style="display:block;"{% else %}style="display:none;"{% endif %}>
-  <h4>Overdue</h4>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Title</th><th>Subject</th><th>Description</th>
-        <th>Due</th><th>Time</th><th>Points</th><th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% if overdue_tasks %}
-      {% for task in overdue_tasks %}
+<div id="tab-content-finished" style="display: none;">
+  <h4>{% trans "Finished" %}</h4>
+  {% if done_tasks %}
+    <table class="table table-hover">
+      <thead>
         <tr>
-          <td>{{ task.title }}</td>
-          <td>{{ task.subject }}</td>
-          <td>{{ task.description|truncatechars:5 }}</td>
-          <td>{{ task.due_date }}</td>
-          <td>{{ task.time }} min</td>
-          <td> - </td>
-          <td>
-            <a href="{% url 'task-detail' task.id %}" class="btn btn-sm btn-info">Details</a>
-          </td>
+          <th>{% trans "Title" %}</th><th>{% trans "Subject" %}</th><th>{% trans "Description" %}</th><th>{% trans "Due date" %}</th><th>{% trans "Time" %}</th><th>{% trans "Points" %}</th><th>{% trans "Actions" %}</th>
         </tr>
+      </thead>
+      <tbody>
+        {% for task in done_tasks %}
+          <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.subject }}</td>
+            <td>{{ task.description|truncatechars:10 }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.time }} min</td>
+            <td>
+              {% if task.points == 0 %}
+                -
+              {% else %}
+                {{ task.points }}
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'task-detail' task.id %}" class="btn btn-outline-secondary">{% trans "Details" %}</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-finished-message">{% trans "No finished tasks." %}</p>
+  {% endif %}
+
+  {% if done_page.has_other_pages %}
+  <nav>
+    <ul class="pagination">
+      {% if done_page.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?done_page={{ done_page.previous_page_number }}#tab-content-finished">{% trans "Previous" %}</a>
+        </li>
+      {% endif %}
+      {% for num in done_page.paginator.page_range %}
+        <li class="page-item {% if done_page.number == num %}active{% endif %}">
+          <a class="page-link" href="?done_page={{ num }}#tab-content-finished">{{ num }}</a>
+        </li>
       {% endfor %}
-    {% else %}
-      <tr>
-        <td colspan="7" class="text-center text-muted">No overdue tasks.</td>
-      </tr>
-    {% endif %}
-    </tbody>
-  </table>
+      {% if done_page.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?done_page={{ done_page.next_page_number }}#tab-content-finished">{% trans "Next" %}</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
+
+</div>
+
+<div id="tab-content-overdue" style="display: none;">
+  <h4>{% trans "Overdue" %}</h4>
+  {% if overdue_tasks %}
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>{% trans "Title" %}</th><th>{% trans "Subject" %}</th><th>{% trans "Description" %}</th><th>{% trans "Due date" %}</th><th>{% trans "Time" %}</th><th>{% trans "Points" %}</th><th>{% trans "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in overdue_tasks %}
+          <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.subject }}</td>
+            <td>{{ task.description|truncatechars:10 }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.time }} min</td>
+            <td>-</td>
+            <td>
+              <a href="{% url 'task-detail' task.id %}" class="btn btn-outline-secondary">{% trans "Details" %}</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-overdue-message">{% trans "No overdue tasks." %}</p>
+  {% endif %}
+
+  {% if overdue_page.has_other_pages %}
+  <nav>
+    <ul class="pagination">
+      {% if overdue_page.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?overdue_page={{ overdue_page.previous_page_number }}#tab-content-overdue">{% trans "Previous" %}</a>
+        </li>
+      {% endif %}
+      {% for num in overdue_page.paginator.page_range %}
+        <li class="page-item {% if overdue_page.number == num %}active{% endif %}">
+          <a class="page-link" href="?overdue_page={{ num }}#tab-content-overdue">{{ num }}</a>
+        </li>
+      {% endfor %}
+      {% if overdue_page.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?overdue_page={{ overdue_page.next_page_number }}#tab-content-overdue">{% trans "Next" %}</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
+
+</div>
 </div>
 
   {# CSRF token (needed by JS fetch) #}
   <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-  <!-- Modal: odliczanie czasu z GIF i controlkami Stop / Continue+Exit -->
   <div id="timer-modal" class="modal" style="display:none;">
     <div class="modal-content" style="text-align:center; position:relative;">
         <h3 id="modal-task-title" style="margin-bottom: 0;"></h3>
         <p id="modal-task-subject" style="margin-top: 0; color: #666;"></p>
-          <h4>Time left: <span id="modal-time-left">00:00</span></h4>
-          <img id="task-gif" src="{% static 'animations/tst.gif' %}" alt="Loading..." style="width:150px; margin:1em 0;"/>
+          <h4>{% trans "Time left:" %} <span id="modal-time-left">00:00</span> min</h4>
+          <img id="task-gif" src="{% static 'animations/task_animation.gif' %}" alt="Loading..." style="width:600px; margin:1em 0;"/>
       <div id="run-controls">
-        <button id="stop-btn" class="btn btn-warning">Stop</button>
+        <button id="stop-btn" class="btn btn-warning">{% trans "Stop" %}</button>
       </div>
       <div id="pause-controls" style="display:none;">
-            <button id="continue-btn" class="btn btn-success">Continue</button>
-            <button id="exit-btn" class="btn btn-danger">Exit</button>
-            <button id="finish-btn" class="btn btn-info">Finish Early</button>
+            <button id="continue-btn" class="btn btn-success">{% trans "Continue" %}</button>
+            <button id="exit-btn" class="btn btn-danger">{% trans "Save and exit" %}</button>
+            <button id="finish-btn" class="btn btn-warning">{% trans "Finish early" %}</button>
       </div>
     </div>
   </div>
 
-<!-- Modal: potwierdzenie hasłem rodzica -->
 <div id="parent-password-modal" class="modal" style="display:none;">
   <div class="modal-content" style="max-width: 400px; margin: auto; padding: 20px; border-radius: 8px;">
-    <h5>Enter parent's password</h5>
-    <input type="password" id="parent-password-input" class="form-control" placeholder="Parent password" />
+    <h5>{% trans "Enter parent's password" %}</h5>
+    <input type="password" id="parent-password-input" class="form-control" placeholder='{% trans "Parent password" %}'/>
     <div style="margin-top: 1em; text-align: right;">
-      <button id="parent-password-cancel" class="btn btn-secondary btn-sm">Cancel</button>
-      <button id="parent-password-submit" class="btn btn-primary btn-sm">Submit</button>
+      <button id="parent-password-submit" class="btn btn-primary">{% trans "Confirm" %}</button>
+      <button id="parent-password-cancel" class="btn btn-outline-secondary">{% trans "Cancel" %}</button>
     </div>
-    <p id="parent-password-error" style="color: red; display: none; margin-top: 0.5em;">Incorrect password</p>
+    <p id="parent-password-error" style="color: red; display: none; margin-top: 0.5em;">{% trans "Incorrect password" %}</p>
   </div>
 </div>
 
-  <!-- Modal time-up -->
   <div id="timeup-modal" class="modal" style="display:none;">
     <div class="modal-content">
-      <p>Time is up!</p>
+      <p>{% trans "Time is up!" %}</p>
       <button id="timeup-ok" class="btn btn-primary">OK</button>
     </div>
   </div>
 
-  <!-- Modal z info o punktach -->
   <div id="points-earned-modal" class="modal" style="display:none;">
     <div class="modal-content" style="background: white; padding: 20px; border-radius: 10px; text-align: center;">
       <p id="earned-message" style="font-size: 1.2em; font-weight: bold;"></p>
-      <button id="earned-ok" class="btn btn-success">OK</button>
+      <button id="earned-ok" class="btn btn-warning">OK</button>
     </div>
   </div>
 
-  <!-- CSRF token -->
   <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 {% endblock %}
 
 {% block extra_js %}
+{% load i18n %}
 <script>
- // proste przełączanie Finished / Overdue trzymające URL
-document.getElementById('toggle-done').addEventListener('click', () => {
-  const params = new URLSearchParams(window.location.search);
-  // jeśli już pokazane – usuwamy, inaczej dodajemy
-  if (params.get('show') === 'done') {
-    params.delete('show');
-    params.delete('done_page');  // możesz też zresetować paginację
-  } else {
-    params.set('show', 'done');
-  }
-  window.location.search = params.toString();
-});
-
-document.getElementById('toggle-overdue').addEventListener('click', () => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('show') === 'overdue') {
-    params.delete('show');
-  } else {
-    params.set('show', 'overdue');
-  }
-  window.location.search = params.toString();
-});
-
 document.addEventListener('DOMContentLoaded', () => {
   const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   let currentTaskId, countdownInterval, secondsLeft;
@@ -276,7 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function show(id){ document.getElementById(id).style.display = 'flex'; }
   function hide(id){ document.getElementById(id).style.display = 'none'; }
 
-  // ★ START / CONTINUE ★
   document.querySelectorAll('.start-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       currentTaskId = btn.dataset.taskId;
@@ -290,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const { minutes } = await resp.json();
       secondsLeft = minutes * 60;
 
-      document.getElementById('task-gif').src = "{% static 'animations/tst.gif' %}";
+      document.getElementById('task-gif').src = "{% static 'animations/task_animation.gif' %}";
       hide('pause-controls');
       show('run-controls');
       document.getElementById('modal-time-left').textContent = formatTime(secondsLeft);
@@ -308,19 +328,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ★ STOP ★
   document.getElementById('stop-btn').addEventListener('click', () => {
     clearInterval(countdownInterval);
     hide('run-controls');
     show('pause-controls');
-    document.getElementById('task-gif').src = "{% static 'animations/tst_still.png' %}";
+    document.getElementById('task-gif').src = "{% static 'images/task_pause.png' %}";
   });
 
-  // ★ CONTINUE ★
   document.getElementById('continue-btn').addEventListener('click', () => {
     hide('pause-controls');
     show('run-controls');
-    document.getElementById('task-gif').src = "{% static 'animations/tst.gif' %}";
+    document.getElementById('task-gif').src = "{% static 'animations/task_animation.gif' %}";
     countdownInterval = setInterval(() => {
       secondsLeft--;
       document.getElementById('modal-time-left').textContent = formatTime(secondsLeft);
@@ -332,7 +350,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   });
 
-  // ★ EXIT (PAUSE) ★
   document.getElementById('exit-btn').addEventListener('click', async () => {
     clearInterval(countdownInterval);
     hide('timer-modal');
@@ -348,19 +365,16 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.reload();
   });
 
-  // ★ FINISH EARLY: show password modal ★
   document.getElementById('finish-btn').addEventListener('click', () => {
     document.getElementById('parent-password-error').style.display = 'none';
     document.getElementById('parent-password-input').value = '';
     show('parent-password-modal');
   });
 
-  // ★ PASSWORD MODAL: cancel ★
   document.getElementById('parent-password-cancel').addEventListener('click', () => {
     hide('parent-password-modal');
   });
 
-  // ★ PASSWORD MODAL: submit ★
   document.getElementById('parent-password-submit').addEventListener('click', async () => {
     const pwdInput = document.getElementById('parent-password-input');
     const errorEl = document.getElementById('parent-password-error');
@@ -386,12 +400,12 @@ document.addEventListener('DOMContentLoaded', () => {
         errorEl.style.display = 'block';
         return;
       }
-      // success
+
       hide('parent-password-modal');
       clearInterval(countdownInterval);
       hide('timer-modal');
       document.getElementById('earned-message').textContent =
-        `Good job! You earned ${data.awarded} point${data.awarded === 1 ? '' : 's'}!`;
+        `Brawo! Zdobyto ${data.awarded} punktów!`;
       show('points-earned-modal');
     } catch (err) {
       errorEl.textContent = 'Network error';
@@ -399,7 +413,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ★ TIME-UP ★
   document.getElementById('timeup-ok').addEventListener('click', async () => {
     hide('timeup-modal');
     const resp = await fetch(`/tasks/${currentTaskId}/finish/`, {
@@ -408,16 +421,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     const { awarded } = await resp.json();
     document.getElementById('earned-message').textContent =
-      `Good job! You earned ${awarded} point${awarded === 1 ? '' : 's'}!`;
+      `Brawo! Zdobyto ${awarded} punktów!`;
     show('points-earned-modal');
   });
 
-  // ★ POINTS-EARNED OK ★
   document.getElementById('earned-ok').addEventListener('click', () => {
     hide('points-earned-modal');
     window.location.reload();
   });
 
+});
+
+document.getElementById('tab-btn-todo').addEventListener('click', () => switchTab('todo'));
+document.getElementById('tab-btn-finished').addEventListener('click', () => switchTab('finished'));
+document.getElementById('tab-btn-overdue').addEventListener('click', () => switchTab('overdue'));
+
+function switchTab(tab) {
+  ['todo', 'finished', 'overdue'].forEach(name => {
+    document.getElementById(`tab-content-${name}`).style.display = (name === tab) ? 'block' : 'none';
+    document.getElementById(`tab-btn-${name}`).classList.toggle('active', name === tab);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+
+  if (urlParams.has('done_page')) {
+    switchTab('finished');
+  } else if (urlParams.has('overdue_page')) {
+    switchTab('overdue');
+  } else {
+    switchTab('todo');
+  }
 });
 </script>
 {% endblock %}

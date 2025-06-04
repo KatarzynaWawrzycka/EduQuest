@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db.models import Q
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 
 
 class CustomUser(AbstractUser):
@@ -18,14 +20,12 @@ class CustomUser(AbstractUser):
         CHILD = 'child', 'Child'
         PARENT = 'parent', 'Parent'
 
-    # All new users are defined as PARENTS - only logges in parent can register a child
     role = models.CharField(
         max_length=10,
         choices=Role.choices,
         default=Role.PARENT
     )
 
-    # parent-child relation
     parent = models.ForeignKey(
         'self',
         null=True,
@@ -34,15 +34,12 @@ class CustomUser(AbstractUser):
         related_name='children'
     )
 
-    # validation - child's account has to be paired with parent's one
     def clean(self):
         super().clean()
         if self.role == CustomUser.Role.CHILD and not self.parent:
             raise ValidationError("Child's account has to be paired with its parent")
 
-    # creating new user
     def save(self, *args, **kwargs):
-        #if the new user is a parent - delete parent relation
         if not self.pk and self.role == CustomUser.Role.PARENT:
             self.parent = None
         super().save(*args, **kwargs)
@@ -67,24 +64,29 @@ class CustomUser(AbstractUser):
         verbose_name_plural = "Users"
 
 class Subject(models.Model):
-    """
-    Subject model
-    Subjects list (id, name)
-    """
-    name = models.CharField(max_length=100)
+    class SubjectsEnum(models.TextChoices):
+        MATHEMATICS = 'mathematics', _('Mathematics')
+        BIOLOGY = 'polish_language', _('Polish Language')
+        CHEMISTRY = 'english_language', _('English Language')
+        PHYSICS = 'history', _('History')
+        HISTORY = 'science', _('Science')
+        GEOGRAPHY = 'computer_science', _('Computer Science')
+
+    name = models.CharField(
+        max_length=50,
+        choices=SubjectsEnum.choices,
+        unique=True,
+    )
 
     def __str__(self):
-        return self.name
+        return str(self.SubjectsEnum(self.name).label)
 
 class Preference(models.Model):
-    """
-    Preference model
-    Links difficulty level to a subject to a user (child)
-    """
+
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     difficulty = models.IntegerField(choices=[(i, label) for i, label in enumerate(
-        ['Not applicable', 'Very easy', 'Quite easy', 'Normal', 'Quite hard', 'Very hard'], start=0)])
+        [_('Not applicable'), _('Very easy'), _('Quite easy'), _('Normal'), _('Quite hard'), _('Very hard')], start=0)])
 
     def __str__(self):
         return f"{self.user.username} - {self.subject.name} ({self.difficulty})"
@@ -112,17 +114,17 @@ class Reward(models.Model):
 
 class Task(models.Model):
     class Status(models.TextChoices):
-        TO_DO = 'to_do', 'To do'
-        STARTED = 'started', 'Started'
-        DONE = 'done', 'Done'
-        OVERDUE = 'overdue', 'Overdue'
+        TO_DO = 'to_do', _('To do')
+        STARTED = 'started', _('Started')
+        DONE = 'done', _('Done')
+        OVERDUE = 'overdue', _('Overdue')
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     due_date = models.DateField()
-    time = models.PositiveIntegerField(help_text="Time in minutes")
+    time = models.PositiveIntegerField(help_text=_("Time in minutes"))
     created_at = models.DateTimeField(auto_now_add=True)
     started_at = models.DateTimeField(blank=True, null=True)
     finished_at = models.DateTimeField(blank=True, null=True)

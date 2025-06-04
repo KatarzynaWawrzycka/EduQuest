@@ -1,12 +1,18 @@
 {% extends "eduquest_app/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Delete reward" %} | EduQuest{% endblock %}
 
 {% block content %}
-  <h2>Delete Reward</h2>
-  <p>Are you sure you want to delete the reward <strong>{{ object.name }}</strong> for {{ object.user.username }}?</p>
+<div class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+  <div class="w-100" style="max-width: 500px;">
+    <h2 class="text-center mb-4">{% trans "Delete reward" %}</h2>
+    <p class="text-center">{% trans "Are you sure you want to delete the reward" %} <strong>{{ object.name }}</strong> {% trans "for user" %} {{ object.user.username }}?</p>
 
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" style="color: white; background-color: red;">Yes, delete</button>
-    <a href="{% url 'manage-child-profile' child_id=object.user.id %}"><button type="button">Cancel</button></a>
-  </form>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger w-100 mb-2">{% trans "Yes, delete" %}</button>
+      <a href="{% url 'manage-child-profile' child_id=object.user.id %}" class="btn btn-outline-secondary w-100">{% trans "Cancel" %}</a>
+    </form>
+  </div>
+</div>
 {% endblock %}
